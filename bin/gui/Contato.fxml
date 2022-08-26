@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox prefHeight="190.0" prefWidth="353.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18">
+   <children>
+      <Label prefHeight="30.0" prefWidth="115.0" text="Contato">
+         <padding>
+            <Insets left="20.0" top="5.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="22.0" text="Desenvolvedor: Leandro Teixeira. Contato: 031 994060473&quot;)">
+         <padding>
+            <Insets left="20.0" top="5.0" />
+         </padding>
+      </Label>
+   </children>
+</VBox>
