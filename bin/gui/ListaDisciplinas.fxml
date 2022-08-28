@@ -26,9 +26,9 @@
       </ToolBar>
       <TableView fx:id="tableViewDisciplina" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn fx:id="tableColunmId" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="tableColunmNome" prefWidth="75.0" text="NOME" />
-            <TableColumn fx:id="tableColunmArea" prefWidth="75.0" text="ÁREA" />
+          <TableColumn fx:id="tableColunmId" prefWidth="21.0" text="ID" />
+          <TableColumn fx:id="tableColunmNome" prefWidth="104.0" text="NOME" />
+            <TableColumn fx:id="tableColunmArea" maxWidth="216.0" minWidth="-1.0" prefWidth="185.0" text="ÁREA" />
         </columns>
       </TableView>
    </children>
