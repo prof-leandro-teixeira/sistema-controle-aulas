@@ -23,15 +23,18 @@ import modelos.servicos.ServicoProfessor;
 
 public class MainViewController implements Initializable{
 	
-	//AGENDA
+	
+	//AULA
 	@FXML
 	private MenuItem menuItemAula;
 	@FXML
 	public void onMenuItemAulaAction() {
-			loadView("/gui/ListaAulas.fxml", (ControleListaAula controle)->{
+		System.out.println("ok");
+			/*loadView("/gui/ListaAulas.fxml", (ControleListaAula controle)->{
 				controle.setServicoAula(new ServicoAula());
 				controle.updateTableView();
 				});
+				*/
 	}
 	
 	//ALUNO

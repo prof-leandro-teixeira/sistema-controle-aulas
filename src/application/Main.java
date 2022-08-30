@@ -14,9 +14,9 @@ public class Main extends Application {
 	private static Scene mainScene;
 	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws IOException{
 		try {
-			FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/MainView.fxml")));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
 			ScrollPane scrollPane = loader.load();
 			
 			scrollPane.setFitToHeight(true);
