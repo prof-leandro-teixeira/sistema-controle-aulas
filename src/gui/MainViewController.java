@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+
 import application.Main;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import modelos.servicos.ServicoAluno;
+import modelos.servicos.ServicoAula;
 import modelos.servicos.ServicoDisciplina;
 import modelos.servicos.ServicoProfessor;
 
@@ -23,10 +25,13 @@ public class MainViewController implements Initializable{
 	
 	//AGENDA
 	@FXML
-	private MenuItem menuItemAgenda;
+	private MenuItem menuItemAula;
 	@FXML
-	public void onMenuItemAgendaAction() {
-			loadView("/gui/Contato.fxml", x -> {});
+	public void onMenuItemAulaAction() {
+			loadView("/gui/ListaAulas.fxml", (ControleListaAula controle)->{
+				controle.setServicoAula(new ServicoAula());
+				controle.updateTableView();
+				});
 	}
 	
 	//ALUNO

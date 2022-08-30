@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.GaussianBlur?>
-<?import javafx.scene.effect.MotionBlur?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="414.0" prefWidth="835.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
    <content>
       <VBox prefHeight="362.0" prefWidth="568.0">
          <children>
             <MenuBar>
               <menus>
-                  <Menu fx:id="menuItemAgenda" mnemonicParsing="false" onAction="#onMenuItemAgendaAction" text="AGENDA">
+                  <Menu fx:id="menuItemAula" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Cadastro" />
                         <MenuItem mnemonicParsing="false" text="Consulta" />
@@ -49,24 +43,6 @@
                   </Menu>
               </menus>
             </MenuBar>
-            <ImageView fitHeight="363.0" fitWidth="592.0" nodeOrientation="INHERIT" opacity="0.45" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <image>
-                  <Image url="@../../../../../../Users/LEANDRO/Pictures/wallpappers/petra2.jpg" />
-               </image>
-               <effect>
-                  <MotionBlur>
-                     <input>
-                        <GaussianBlur />
-                     </input>
-                  </MotionBlur>
-               </effect>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </ImageView>
          </children>
       </VBox>
    </content>
