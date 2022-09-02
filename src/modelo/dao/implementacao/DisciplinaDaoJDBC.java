@@ -1,5 +1,4 @@
 package modelo.dao.implementacao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import db.DB;
 import db.DbException;
 import db.DbIntegrityException;
@@ -55,7 +53,7 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina ORDER BY Name");
+				"SELECT * FROM disciplina ORDER BY Nome");
 			rs = st.executeQuery();
 
 			List<Disciplina> list = new ArrayList<>();
@@ -83,9 +81,8 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO disciplina " +
-				"(Name) " +
-				"(Area)"  +		
+				"INSERT INTO disciplina" +
+				"(`Nome`,`Area`)"+
 				"VALUES " +
 				"(?,?)", 
 				Statement.RETURN_GENERATED_KEYS);
@@ -120,11 +117,13 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 		try {
 			st = conn.prepareStatement(
 				"UPDATE disciplina " +
-				"SET Name = ? " +
+				"SET Nome = ? " +
+				"SET Area = ? " +
 				"WHERE Id = ?");
 
 			st.setString(1, obj.getNome());
-			st.setInt(2, obj.getId());
+			st.setString(2, obj.getArea());
+			st.setInt(3, obj.getId());
 
 			st.executeUpdate();
 		}

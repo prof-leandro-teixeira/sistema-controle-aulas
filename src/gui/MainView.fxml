@@ -14,19 +14,10 @@
               <menus>
                   <Menu mnemonicParsing="false" text="CADASTROS">
                      <items>
-                        <MenuItem fx:id="menuItemAula" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
-                        <MenuItem fx:id="menuItemAluno" mnemonicParsing="false" onAction="#onMenuItemAlunoAction" text="ALUNO" />
+                        <MenuItem fx:id="menuItemCadAluno" mnemonicParsing="false" onAction="#onMenuItemCadAlunoAction" text="ALUNO" />
                         <MenuItem fx:id="menuItemDisciplina" mnemonicParsing="false" onAction="#onMenuItemDisciplinaAction" text="DISCIPLINA" />
                         <MenuItem fx:id="menuItemProfessor" mnemonicParsing="false" onAction="#onMenuItemProfessorAction" text="PROFESSOR" />
                      </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="RELATÓRIOS">
-                    <items>
-                        <MenuItem fx:id="menuItemAula1" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
-                        <MenuItem fx:id="menuItemAluno1" mnemonicParsing="false" onAction="#onMenuItemAlunoAction" text="ALUNO" />
-                        <MenuItem fx:id="menuItemDisciplina1" mnemonicParsing="false" onAction="#onMenuItemDisciplinaAction" text="DISCIPLINA" />
-                        <MenuItem fx:id="menuItemProfessor1" mnemonicParsing="false" onAction="#onMenuItemProfessorAction" text="PROFESSOR" />
-                    </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="CONTATO">
                      <items>

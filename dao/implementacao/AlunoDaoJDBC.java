@@ -1,11 +1,12 @@
 package modelo.dao.implementacao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+
 import db.DB;
 import db.DbException;
 import modelo.dao.AlunoDao;
@@ -20,76 +21,15 @@ public class AlunoDaoJDBC implements AlunoDao {
 	}
 	
 	@Override
-	public Aluno findById(Integer id) {
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		try {
-			st = conn.prepareStatement(
-				"SELECT * FROM disciplina WHERE Id = ?");
-			st.setInt(1, id);
-			rs = st.executeQuery();
-			if (rs.next()) {
-				Aluno obj = new Aluno();
-				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsável"));
-				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereço"));
-				obj.setEmail(rs.getString("Email"));
-				return obj;
-			}
-			return null;
-		}
-		catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		}
-		finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
-		}
-	}
-	
-	@Override
-	public List<Aluno> findAll() {
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		try {
-			st = conn.prepareStatement(
-				"SELECT * FROM disciplina ORDER BY Nome");
-			rs = st.executeQuery();
-
-			List<Aluno> list = new ArrayList<>();
-
-			while (rs.next()) {
-				Aluno obj = new Aluno();
-				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsável"));
-				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereço"));
-				obj.setEmail(rs.getString("Email"));
-				}
-			return list;
-		}
-		catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		}
-		finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
-		}
-	}
-	
-	@Override
 	public void insert(Aluno obj) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO aluno "
-				+ "(`Nome`, `Responsável`, `Telefone`, `Endereço`, `Email`) "
-				+ "VALUES "
-				+ "(?, ?, ?, ?, ?, ?)",
-				Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO aluno "
+					+ "(Nome, Responsável, Telefone, Endereço, Email) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
 			
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getResponsavel());
@@ -108,7 +48,7 @@ public class AlunoDaoJDBC implements AlunoDao {
 				DB.closeResultSet(rs);
 			}
 			else {
-				throw new DbException("Unexpected error! Nenhuma linha alterada!");
+				throw new DbException("Unexpected error! No rows affected!");
 			}
 		}
 		catch (SQLException e) {
@@ -163,4 +103,19 @@ public class AlunoDaoJDBC implements AlunoDao {
 			DB.closeStatement(st);
 		}
 	}
+
+
+
+	@Override
+	public Aluno findById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Aluno> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

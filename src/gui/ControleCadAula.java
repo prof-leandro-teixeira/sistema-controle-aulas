@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import modelos.entidades.Aula;
 import modelos.servicos.ServicoAula;
 
-public class ControleListaAula implements Initializable{
+public class ControleCadAula implements Initializable{
 	@FXML
 	private ServicoAula servico;
 

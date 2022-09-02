@@ -17,32 +17,63 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import modelos.servicos.ServicoAluno;
-import modelos.servicos.ServicoAula;
 import modelos.servicos.ServicoDisciplina;
 import modelos.servicos.ServicoProfessor;
 
 public class MainViewController implements Initializable{
 	
-	
+	/*
 	//AULA
 	@FXML
 	private MenuItem menuItemAula;
 	@FXML
 	public void onMenuItemAulaAction() {
-		System.out.println("ok");
-			/*loadView("/gui/ListaAulas.fxml", (ControleListaAula controle)->{
-				controle.setServicoAula(new ServicoAula());
-				controle.updateTableView();
-				});
-				*/
+		loadView("/gui/CadAulas.fxml", (ControleCadAula controle)->{
+			controle.setServicoAula(new ServicoAula());
+			controle.updateTableView();
+			});
+	}	
+	
+	@FXML
+	private MenuItem menuItemListaAula;
+	
+	@FXML
+	public void onMenuItemListaAulaAction() {
+		loadViewLista("/gui/ListaAulas.fxml", (ControleListaAula controle)->{
+			controle.setServicoAula(new ServicoAula());
+			controle.updateTableView();
+			});	
+	}*/
+	
+	//DISCIPLINA
+	@FXML
+	private MenuItem menuItemDisciplina;
+	@FXML
+	public void onMenuItemDisciplinaAction() {
+		loadView("/gui/CadDisciplinas.fxml", (ControleCadDisciplina controle)->{
+			controle.setServicoDisciplina(new ServicoDisciplina());
+			controle.updateTableView();
+			});
 	}
 	
+	
+	//PROFESSOR
+	@FXML
+	private MenuItem menuItemProfessor;
+	@FXML
+	public void onMenuItemProfessorAction() {
+		loadView("/gui/CadProfessores.fxml", (ControleCadProfessor controle)->{
+			controle.setServicoProfessor (new ServicoProfessor());
+			controle.updateTableView();
+			});
+	}
+
 	//ALUNO
 	@FXML
-	private MenuItem menuItemAluno;
+	private MenuItem menuItemCadAluno;
 	@FXML
-	public void onMenuItemAlunoAction() {
-		loadView("/gui/ListaAlunos.fxml", (ControleListaAluno controle)->{
+	public void onMenuItemCadAlunoAction() {
+		loadView("/gui/CadAlunos.fxml", (ControleCadAluno controle)->{
 			controle.setServicoAluno(new ServicoAluno());
 			controle.updateTableView();
 			});
@@ -55,30 +86,7 @@ public class MainViewController implements Initializable{
 	public void onMenuItemContatoAction() {
 		loadView("/gui/Contato.fxml", x -> {});
 	}
-
-	//DISCIPLINA
-	@FXML
-	private MenuItem menuItemDisciplina;
-	@FXML
-	public void onMenuItemDisciplinaAction() {
-		loadView("/gui/ListaDisciplinas.fxml", (ControleListaDisciplina controle)->{
-			controle.setServicoDisciplina(new ServicoDisciplina());
-			controle.updateTableView();
-			});
-	}
-	
-	//PROFESSOR
-	@FXML
-	private MenuItem menuItemProfessor;
-	@FXML
-	public void onMenuItemProfessorAction() {
-		loadView("/gui/ListaProfessores.fxml", (ControleListaProfessor controle)->{
-			controle.setServicoProfessor (new ServicoProfessor());
-			controle.updateTableView();
-			});
-	}
-	
-	//função
+	//função cadastro
 	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
 		try {	
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -99,7 +107,8 @@ public class MainViewController implements Initializable{
 				Alerts.showAlert("IO Exception", "Erro no carregamento da página", e.getMessage(), AlertType.ERROR);
 			}
 	}
-
+	
+	
 	@Override
 	public void initialize(URL uri, ResourceBundle rb) {
 		}

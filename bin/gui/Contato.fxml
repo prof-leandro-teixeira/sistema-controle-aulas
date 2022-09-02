@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="190.0" prefWidth="353.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18">
+<VBox prefHeight="190.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label prefHeight="30.0" prefWidth="115.0" text="Contato">
          <padding>
