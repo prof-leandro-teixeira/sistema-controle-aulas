@@ -25,16 +25,16 @@ public class AlunoDaoJDBC implements AlunoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina WHERE Id = ?");
+				"SELECT * FROM aluno WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				Aluno obj = new Aluno();
 				obj.setId(rs.getInt("Id"));
 				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsável"));
+				obj.setResponsavel(rs.getString("Responsavel"));
 				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereço"));
+				obj.setEndereco(rs.getString("Endereco"));
 				obj.setEmail(rs.getString("Email"));
 				return obj;
 			}
@@ -55,7 +55,7 @@ public class AlunoDaoJDBC implements AlunoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina ORDER BY Nome");
+				"SELECT * FROM aluno ORDER BY Nome");
 			rs = st.executeQuery();
 
 			List<Aluno> list = new ArrayList<>();
@@ -64,9 +64,9 @@ public class AlunoDaoJDBC implements AlunoDao {
 				Aluno obj = new Aluno();
 				obj.setId(rs.getInt("Id"));
 				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsável"));
+				obj.setResponsavel(rs.getString("Responsavel"));
 				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereço"));
+				obj.setEndereco(rs.getString("Endereco"));
 				obj.setEmail(rs.getString("Email"));
 				}
 			return list;
@@ -85,10 +85,10 @@ public class AlunoDaoJDBC implements AlunoDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO aluno "
-				+ "(`Nome`, `Responsável`, `Telefone`, `Endereço`, `Email`) "
-				+ "VALUES "
-				+ "(?, ?, ?, ?, ?, ?)",
+				"INSERT INTO aluno " +
+				"(`Nome`, `Responsavel`, `Telefone`, `Endereco`, `Email`) " +
+				"VALUES " +
+				"(?, ?, ?, ?, ?, ?)", 
 				Statement.RETURN_GENERATED_KEYS);
 			
 			st.setString(1, obj.getNome());
@@ -105,7 +105,6 @@ public class AlunoDaoJDBC implements AlunoDao {
 					int id = rs.getInt(1);
 					obj.setId(id);
 				}
-				DB.closeResultSet(rs);
 			}
 			else {
 				throw new DbException("Unexpected error! Nenhuma linha alterada!");
@@ -124,11 +123,13 @@ public class AlunoDaoJDBC implements AlunoDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"INSERT INTO aluno "
-					+ "(Nome, Responsável, Telefone, Endereço, Email) "
-					+ "VALUES "
-					+ "(?, ?, ?, ?, ?, ?)",
-					Statement.RETURN_GENERATED_KEYS);
+				"UPDATE aluno " +
+				"SET Nome = ?" +
+				"SET Responsavel = ?" +
+				"SET Telefone = ?" +
+				"SET Endereco = ?" +
+				"SET Email = ? " +
+				"WHERE Id = ?");
 			
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getResponsavel());
@@ -150,10 +151,10 @@ public class AlunoDaoJDBC implements AlunoDao {
 	public void deleteById(Integer id) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("DELETE FROM aluno WHERE Id = ?");
+			st = conn.prepareStatement(
+				"DELETE FROM aluno WHERE Id = ?");
 			
 			st.setInt(1, id);
-			
 			st.executeUpdate();
 		}
 		catch (SQLException e) {

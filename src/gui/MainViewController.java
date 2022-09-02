@@ -45,32 +45,31 @@ public class MainViewController implements Initializable{
 			});	
 	}*/
 	
-	//DISCIPLINA
 	@FXML
-	private MenuItem menuItemDisciplina;
+	private MenuItem menuItemCadDisciplina;
+	
 	@FXML
-	public void onMenuItemDisciplinaAction() {
+	private MenuItem menuItemCadProfessor;
+	
+	@FXML
+	private MenuItem menuItemCadAluno;
+		
+	@FXML
+	public void onMenuItemCadDisciplinaAction() {
 		loadView("/gui/CadDisciplinas.fxml", (ControleCadDisciplina controle)->{
 			controle.setServicoDisciplina(new ServicoDisciplina());
 			controle.updateTableView();
 			});
 	}
-	
-	
-	//PROFESSOR
+		
 	@FXML
-	private MenuItem menuItemProfessor;
-	@FXML
-	public void onMenuItemProfessorAction() {
+	public void onMenuItemCadProfessorAction() {
 		loadView("/gui/CadProfessores.fxml", (ControleCadProfessor controle)->{
-			controle.setServicoProfessor (new ServicoProfessor());
+			controle.setServicoProfessor(new ServicoProfessor());
 			controle.updateTableView();
 			});
 	}
-
-	//ALUNO
-	@FXML
-	private MenuItem menuItemCadAluno;
+	
 	@FXML
 	public void onMenuItemCadAlunoAction() {
 		loadView("/gui/CadAlunos.fxml", (ControleCadAluno controle)->{
@@ -79,14 +78,13 @@ public class MainViewController implements Initializable{
 			});
 	}
 	
-	//CONTATO
 	@FXML
 	private MenuItem menuItemContato;
 	@FXML
 	public void onMenuItemContatoAction() {
 		loadView("/gui/Contato.fxml", x -> {});
 	}
-	//função cadastro
+	
 	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
 		try {	
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));

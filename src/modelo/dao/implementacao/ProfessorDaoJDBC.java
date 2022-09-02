@@ -25,16 +25,16 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina WHERE Id = ?");
+				"SELECT * FROM professor WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				Professor obj = new Professor();
 				obj.setId(rs.getInt("Id"));
 				obj.setNome(rs.getString("Nome"));
-				obj.setDisciplina(rs.getString("Responsável"));
+				obj.setDisciplina(rs.getString("Disciplina"));
 				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereço"));
+				obj.setEndereco(rs.getString("Endereco"));
 				obj.setEmail(rs.getString("Email"));
 				return obj;
 			}
@@ -55,7 +55,7 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina ORDER BY Nome");
+				"SELECT * FROM professor ORDER BY Nome");
 			rs = st.executeQuery();
 
 			List<Professor> list = new ArrayList<>();
@@ -64,9 +64,9 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 				Professor obj = new Professor();
 				obj.setId(rs.getInt("Id"));
 				obj.setNome(rs.getString("Nome"));
-				obj.setDisciplina(rs.getString("Responsável"));
+				obj.setDisciplina(rs.getString("Disciplina"));
 				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereço"));
+				obj.setEndereco(rs.getString("Endereco"));
 				obj.setEmail(rs.getString("Email"));
 				}
 			return list;
@@ -85,8 +85,8 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO aluno "
-				+ "(`Nome`, `Responsável`, `Telefone`, `Endereço`, `Email`) "
+				"INSERT INTO professor "
+				+ "(`Nome`, `Disciplina`, `Telefone`, `Endereco`, `Email`) "
 				+ "VALUES "
 				+ "(?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
@@ -105,7 +105,6 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 					int id = rs.getInt(1);
 					obj.setId(id);
 				}
-				DB.closeResultSet(rs);
 			}
 			else {
 				throw new DbException("Unexpected error! Nenhuma linha alterada!");
@@ -124,11 +123,13 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"INSERT INTO aluno "
-					+ "(Nome, Responsável, Telefone, Endereço, Email) "
-					+ "VALUES "
-					+ "(?, ?, ?, ?, ?, ?)",
-					Statement.RETURN_GENERATED_KEYS);
+					"UPDATE aluno " +
+					"SET Nome = ?" +
+					"SET Disciplina = ?" +
+					"SET Telefone = ?" +
+					"SET Endereco = ?" +
+					"SET Email = ? " +
+					"WHERE Id = ?");
 			
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getDisciplina());
@@ -150,10 +151,10 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 	public void deleteById(Integer id) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("DELETE FROM aluno WHERE Id = ?");
+			st = conn.prepareStatement(
+				"DELETE FROM professor WHERE Id = ?");
 			
 			st.setInt(1, id);
-			
 			st.executeUpdate();
 		}
 		catch (SQLException e) {

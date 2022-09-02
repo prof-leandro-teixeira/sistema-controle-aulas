@@ -15,8 +15,8 @@
                   <Menu mnemonicParsing="false" text="CADASTROS">
                      <items>
                         <MenuItem fx:id="menuItemCadAluno" mnemonicParsing="false" onAction="#onMenuItemCadAlunoAction" text="ALUNO" />
-                        <MenuItem fx:id="menuItemDisciplina" mnemonicParsing="false" onAction="#onMenuItemDisciplinaAction" text="DISCIPLINA" />
-                        <MenuItem fx:id="menuItemProfessor" mnemonicParsing="false" onAction="#onMenuItemProfessorAction" text="PROFESSOR" />
+                        <MenuItem fx:id="menuItemCadDisciplina" mnemonicParsing="false" onAction="#onMenuItemCadDisciplinaAction" text="DISCIPLINA" />
+                        <MenuItem fx:id="menuItemCadProfessor" mnemonicParsing="false" onAction="#onMenuItemCadProfessorAction" text="PROFESSOR" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="CONTATO">

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import modelos.entidades.Professor;
 import modelos.servicos.ServicoProfessor;
 
-public class ControleCadProfessor implements Initializable{
+public class ControleCadProfessor implements Initializable, DataChangeListener{
 	@FXML
 	private ServicoProfessor servico;
 
@@ -55,12 +56,13 @@ public class ControleCadProfessor implements Initializable{
 	private Button btCadProfessor;
 	
 	@FXML
-	private ObservableList<Professor> obsListA;
+	private ObservableList<Professor> obsList;
 	
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		criaFormProfessor("/gui/FormProfessor.fxml", parentStage);
+		Professor obj = new Professor();
+		criaFormProfessor(obj, "/gui/FormProfessor.fxml", parentStage);
 	}
 	
 	public void setServicoProfessor(ServicoProfessor servico) {
@@ -73,12 +75,12 @@ public class ControleCadProfessor implements Initializable{
 	}
 
 	private void initializeNodes() {
-		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		tableColunmDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
-		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
-		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("endereco"));
-		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
+		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
+		tableColunmDisciplina.setCellValueFactory(new PropertyValueFactory<>("Disciplina"));
+		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("Telefone"));
+		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("Endereco"));
+		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewProfessor.prefHeightProperty().bind(stage.heightProperty());	
@@ -89,28 +91,40 @@ public class ControleCadProfessor implements Initializable{
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
 		List<Professor> list = servico.findAll();
-		obsListA = FXCollections.observableArrayList(list);
-		tableViewProfessor.setItems(obsListA);
+		obsList = FXCollections.observableArrayList(list);
+		tableViewProfessor.setItems(obsList);
 	}
 
-private void criaFormProfessor(String absoluteName,Stage parentStage) {
-	
-	try {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-		Pane pane = loader.load();
+	private void criaFormProfessor(Professor obj, String absoluteName,Stage parentStage) {
 		
-		Stage formStage = new Stage();
-		formStage.setTitle("Entre com os dados do professor.");
-		formStage.setScene(new Scene(pane));
-		formStage.setResizable(false);
-		formStage.initOwner(parentStage);
-		formStage.initModality(Modality.WINDOW_MODAL);
-		formStage.showAndWait();
-
-	} 
-	catch (IOException e) {
-		Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
-	}
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			Pane pane = loader.load();
+			
+			ControleFormProfessor controle = loader.getController();
+			controle.setProfessor(obj);
+			controle.setServicoProfessor(new ServicoProfessor());
+			controle.subscribeDataChangeListener(this);
+			controle.updateForm();
+			
+			Stage formStage = new Stage();
+			formStage.setTitle("Entre com os dados do professor.");
+			formStage.setScene(new Scene(pane));
+			formStage.setResizable(false);
+			formStage.initOwner(parentStage);
+			formStage.initModality(Modality.WINDOW_MODAL);
+			formStage.showAndWait();
 	
+		} 
+		catch (IOException e) {
+			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
+		}
+	
+	}
+
+	@Override
+	public void onDataChanded() {
+		updateTableView();
+		
 	}
 }

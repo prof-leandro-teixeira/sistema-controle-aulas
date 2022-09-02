@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
@@ -22,6 +25,8 @@ public class ControleFormAluno implements Initializable {
 	private Aluno entidade;
 	
 	private ServicoAluno servico;
+	
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
 	@FXML
 	private TextField txtId;
@@ -50,6 +55,17 @@ public class ControleFormAluno implements Initializable {
 	@FXML
 	private Button btCancela;
 	
+	public void setAluno (Aluno entidade) {
+		this.entidade = entidade;
+	}
+	
+	public void setServicoAluno (ServicoAluno servico) {
+		this.servico = servico;
+	}
+	
+	public void subscribeDataChangeListener(DataChangeListener listener) {
+		dataChangeListeners.add(listener);
+	}
 	@FXML
 	private void onBtSaveAction(ActionEvent event) {
 		if (entidade == null) {
@@ -62,6 +78,7 @@ public class ControleFormAluno implements Initializable {
 		try {
 			entidade = getForm();
 			servico.salvaOuAtualiza(entidade);
+			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		}
 		catch (DbException e) {
@@ -69,6 +86,12 @@ public class ControleFormAluno implements Initializable {
 		}
 	}
 	
+	private void notifyDataChangeListeners() {
+		for (DataChangeListener listener : dataChangeListeners){
+			listener.onDataChanded();
+		}		
+	}
+
 	private Aluno getForm() {
 		Aluno obj = new Aluno();
 		
@@ -85,14 +108,6 @@ public class ControleFormAluno implements Initializable {
 	@FXML
 	private void onBtCancelAction(ActionEvent event) {
 		Utils.currentStage(event).close();
-	}
-	
-	public void setAluno (Aluno entidade) {
-		this.entidade = entidade;
-	}
-	
-	public void setServicoAluno (ServicoAluno servico) {
-		this.servico = servico;
 	}
 	
 	public void updateForm() {
@@ -116,6 +131,7 @@ public class ControleFormAluno implements Initializable {
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtNome, 40);
 		Constraints.setTextFieldMaxLength(txtResponsavel, 40);
+		Constraints.setTextFieldInteger(txtTelefone);
 		Constraints.setTextFieldMaxLength(txtEndereco, 50);
 		Constraints.setTextFieldMaxLength(txtEmail, 40);
 	}

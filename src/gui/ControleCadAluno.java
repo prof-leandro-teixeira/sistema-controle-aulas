@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import modelos.entidades.Aluno;
 import modelos.servicos.ServicoAluno;
 
-public class ControleCadAluno implements Initializable{
+public class ControleCadAluno implements Initializable, DataChangeListener{
 	@FXML
 	private ServicoAluno servico;
 
@@ -55,12 +56,13 @@ public class ControleCadAluno implements Initializable{
 	private Button btCadAluno;
 	
 	@FXML
-	private ObservableList<Aluno> obsListA;
+	private ObservableList<Aluno> obsList;
 	
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		criaFormAluno("/gui/FormAluno.fxml", parentStage);
+		Aluno obj = new Aluno();
+		criaFormAluno(obj,"/gui/FormAluno.fxml", parentStage);
 	}
 	
 	public void setServicoAluno(ServicoAluno servico) {
@@ -73,12 +75,12 @@ public class ControleCadAluno implements Initializable{
 	}
 
 	private void initializeNodes() {
-		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		tableColunmResponsavel.setCellValueFactory(new PropertyValueFactory<>("responsavel"));
-		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
-		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("endereco"));
-		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
+		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
+		tableColunmResponsavel.setCellValueFactory(new PropertyValueFactory<>("Responsavel"));
+		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("Telefone"));
+		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("Endereco"));
+		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewAluno.prefHeightProperty().bind(stage.heightProperty());	
@@ -89,14 +91,20 @@ public class ControleCadAluno implements Initializable{
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
 		List<Aluno> list = servico.findAll();
-		obsListA = FXCollections.observableArrayList(list);
-		tableViewAluno.setItems(obsListA);
+		obsList = FXCollections.observableArrayList(list);
+		tableViewAluno.setItems(obsList);
 	}
-	private void criaFormAluno(String absoluteName,Stage parentStage) {
+	private void criaFormAluno(Aluno obj, String absoluteName,Stage parentStage) {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
+			
+			ControleFormAluno controle = loader.getController();
+			controle.setAluno(obj);
+			controle.setServicoAluno(new ServicoAluno());
+			controle.subscribeDataChangeListener(this);
+			controle.updateForm();
 			
 			Stage formStage = new Stage();
 			formStage.setTitle("Entre com os dados do aluno.");
@@ -110,6 +118,12 @@ public class ControleCadAluno implements Initializable{
 		catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
 		}
+		
+	}
+
+	@Override
+	public void onDataChanded() {
+		updateTableView();
 		
 	}
 }

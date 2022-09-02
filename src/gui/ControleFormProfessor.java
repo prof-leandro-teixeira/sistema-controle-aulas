@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
@@ -22,6 +25,8 @@ public class ControleFormProfessor implements Initializable {
 	private Professor entidade;
 	
 	private ServicoProfessor servico;
+	
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
 	@FXML
 	private TextField txtId;
@@ -50,6 +55,18 @@ public class ControleFormProfessor implements Initializable {
 	@FXML
 	private Button btCancela;
 	
+	public void setProfessor (Professor entidade) {
+		this.entidade = entidade;
+	}
+	
+	public void setServicoProfessor (ServicoProfessor servico) {
+		this.servico = servico;
+	}
+	
+	public void subscribeDataChangeListener(DataChangeListener listener) {
+		dataChangeListeners.add(listener);
+	}
+	
 	@FXML
 	private void onBtSaveAction(ActionEvent event) {
 		if (entidade == null) {
@@ -62,6 +79,7 @@ public class ControleFormProfessor implements Initializable {
 		try {
 			entidade = getForm();
 			servico.salvaOuAtualiza(entidade);
+			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		}
 		catch (DbException e) {
@@ -69,6 +87,12 @@ public class ControleFormProfessor implements Initializable {
 		}
 	}
 	
+	private void notifyDataChangeListeners() {
+		for (DataChangeListener listener : dataChangeListeners){
+			listener.onDataChanded();
+		}
+	}
+
 	private Professor getForm() {
 		Professor obj = new Professor();
 		
@@ -85,14 +109,6 @@ public class ControleFormProfessor implements Initializable {
 	@FXML
 	private void onBtCancelAction(ActionEvent event) {
 		Utils.currentStage(event).close();
-	}
-	
-	public void setProfessor (Professor entidade) {
-		this.entidade = entidade;
-	}
-	
-	public void setServicoProfessor (ServicoProfessor servico) {
-		this.servico = servico;
 	}
 	
 	public void updateForm() {
@@ -117,6 +133,7 @@ public class ControleFormProfessor implements Initializable {
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtNome, 40);
 		Constraints.setTextFieldMaxLength(txtDisciplina, 40);
+		Constraints.setTextFieldInteger(txtTelefone);
 		Constraints.setTextFieldMaxLength(txtEndereco, 50);
 		Constraints.setTextFieldMaxLength(txtEmail, 40);
 		

@@ -143,7 +143,6 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 				"DELETE FROM disciplina WHERE Id = ?");
 
 			st.setInt(1, id);
-
 			st.executeUpdate();
 		}
 		catch (SQLException e) {

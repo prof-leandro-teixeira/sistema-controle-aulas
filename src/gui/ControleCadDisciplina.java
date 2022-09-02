@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import modelos.entidades.Disciplina;
 import modelos.servicos.ServicoDisciplina;
 
-public class ControleCadDisciplina implements Initializable{
+public class ControleCadDisciplina implements Initializable, DataChangeListener{
 	@FXML
 	private ServicoDisciplina servico;
 
@@ -46,7 +47,7 @@ public class ControleCadDisciplina implements Initializable{
 	private Button btCadDisciplina;
 	
 	@FXML
-	private ObservableList<Disciplina> obsListA;
+	private ObservableList<Disciplina> obsList;
 	
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
@@ -65,9 +66,9 @@ public class ControleCadDisciplina implements Initializable{
 	}
 
 	private void initializeNodes() {
-		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		tableColunmArea.setCellValueFactory(new PropertyValueFactory<>("Área"));
+		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
+		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
+		tableColunmArea.setCellValueFactory(new PropertyValueFactory<>("Area"));
 				
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewDisciplina.prefHeightProperty().bind(stage.heightProperty());	
@@ -78,8 +79,8 @@ public class ControleCadDisciplina implements Initializable{
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
 		List<Disciplina> list = servico.findAll();
-		obsListA = FXCollections.observableArrayList(list);
-		tableViewDisciplina.setItems(obsListA);
+		obsList = FXCollections.observableArrayList(list);
+		tableViewDisciplina.setItems(obsList);
 	}
 	
 	private void criaFormDisciplina(Disciplina obj, String absoluteName,Stage parentStage) {
@@ -91,10 +92,9 @@ public class ControleCadDisciplina implements Initializable{
 			ControleFormDisciplina controle = loader.getController();
 			controle.setDisciplina(obj);
 			controle.setServicoDisciplina(new ServicoDisciplina());
+			controle.subscribeDataChangeListener(this);
 			controle.updateForm();
-			
-			
-			
+						
 			Stage formStage = new Stage();
 			formStage.setTitle("Entre com os dados da disciplina.");
 			formStage.setScene(new Scene(pane));
@@ -107,6 +107,12 @@ public class ControleCadDisciplina implements Initializable{
 		catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
 		}
+		
+	}
+
+	@Override
+	public void onDataChanded() {
+		updateTableView();
 		
 	}
 }
