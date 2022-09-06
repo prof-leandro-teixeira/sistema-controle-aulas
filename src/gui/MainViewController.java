@@ -17,15 +17,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import modelos.servicos.ServicoAluno;
+import modelos.servicos.ServicoAula;
 import modelos.servicos.ServicoDisciplina;
 import modelos.servicos.ServicoProfessor;
 
 public class MainViewController implements Initializable{
-	
-	/*
-	//AULA
+
 	@FXML
-	private MenuItem menuItemAula;
+	private MenuItem menuItemCadAula;
 	@FXML
 	public void onMenuItemAulaAction() {
 		loadView("/gui/CadAulas.fxml", (ControleCadAula controle)->{
@@ -33,17 +32,6 @@ public class MainViewController implements Initializable{
 			controle.updateTableView();
 			});
 	}	
-	
-	@FXML
-	private MenuItem menuItemListaAula;
-	
-	@FXML
-	public void onMenuItemListaAulaAction() {
-		loadViewLista("/gui/ListaAulas.fxml", (ControleListaAula controle)->{
-			controle.setServicoAula(new ServicoAula());
-			controle.updateTableView();
-			});	
-	}*/
 	
 	@FXML
 	private MenuItem menuItemCadDisciplina;

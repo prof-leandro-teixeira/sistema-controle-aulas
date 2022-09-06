@@ -1,11 +1,10 @@
 package gui;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import db.DbException;
 import gui.listeners.DataChangeListener;
@@ -19,15 +18,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import modelo.exceptions.ValidationException;
-import modelos.entidades.Disciplina;
-import modelos.servicos.ServicoDisciplina;
+import modelos.entidades.Aula;
+import modelos.servicos.ServicoAula;
 
-public class ControleFormDisciplina implements Initializable {
+public class ControleFormAula implements Initializable {
 	
-	private Disciplina entidade;
+	private Aula entidade;
 	
-	private ServicoDisciplina servico;
+	private ServicoAula servico;
 	
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
@@ -35,10 +33,25 @@ public class ControleFormDisciplina implements Initializable {
 	private TextField txtId;
 	
 	@FXML
-	private TextField txtNome;
+	private TextField txtDia;
 	
 	@FXML
-	private TextField txtArea;
+	private TextField txtInicio;
+	
+	@FXML
+	private TextField txtFim;
+	
+	@FXML
+	private TextField txtAluno;
+	
+	@FXML
+	private TextField txtDisciplina;
+	
+	@FXML
+	private TextField txtProfessor;
+	
+	@FXML
+	private TextField txtDuracao;
 	
 	@FXML
 	private Label labelErro;
@@ -49,18 +62,17 @@ public class ControleFormDisciplina implements Initializable {
 	@FXML
 	private Button btCancela;
 	
-	public void setDisciplina (Disciplina entidade) {
+	public void setAula (Aula entidade) {
 		this.entidade = entidade;
 	}
 	
-	public void setServicoDisciplina (ServicoDisciplina servico) {
+	public void setServicoAula (ServicoAula servico) {
 		this.servico = servico;
 	}
 	
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
-	
 	@FXML
 	private void onBtSaveAction(ActionEvent event) {
 		if (entidade == null) {
@@ -76,39 +88,26 @@ public class ControleFormDisciplina implements Initializable {
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		}
-		catch (ValidationException e) {
-			setErrorMessagens(e.getErrors());
-		}
 		catch (DbException e) {
 			Alerts.showAlert("Erro ao salvar objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
-
+	
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners){
 			listener.onDataChanded();
-		}
-		
+		}		
 	}
 
-	private Disciplina getForm() {
-		Disciplina obj = new Disciplina();
+	private Aula getForm() {
+		Aula obj = new Aula();
 		
-		ValidationException exception = new ValidationException("Erro de Validação");
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
-		
-		if (txtNome.getText()== null || txtNome.getText().trim().equals("")){
-			exception.addError("Nome", "Campo não pode ficar vazio");
-		}
-		obj.setNome(txtNome.getText());
-		
-		if (txtArea.getText()== null || txtArea.getText().trim().equals("")){
-			exception.addError("Area", "Campo não pode ficar vazio");
-		}
-		obj.setArea(txtArea.getText());
-		if (exception.getErrors().size() > 0) {
-			throw exception;
-		}
+		obj.setDia((Date) Utils.tryParseToDate(txtDia.getText()));
+		obj.setInicio((Date) Utils.tryParseToDate(txtInicio.getText()));
+		obj.setId(Utils.tryParseToInt(txtFim.getText()));
+		obj.setAluno(txtAluno.getText());
+		obj.setDisciplina(txtDisciplina.getText());
 		
 		return obj;
 		}
@@ -118,32 +117,29 @@ public class ControleFormDisciplina implements Initializable {
 		Utils.currentStage(event).close();
 	}
 	
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		initializeNodes();
-		
-	}
-	
-	private void initializeNodes() {
-		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtNome, 30);
-		Constraints.setTextFieldMaxLength(txtArea, 30);
-	}
-
 	public void updateForm() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade vazia");
 		}
 		txtId.setText(String.valueOf(entidade.getId()));
-		txtNome.setText(entidade.getNome());
-		txtArea.setText(entidade.getArea());
+		txtDia.setText(String.valueOf(entidade.getDia()));
+		txtInicio.setText(String.valueOf(entidade.getInicio()));
+		txtFim.setText(String.valueOf(entidade.getFim()));
+		txtAluno.setText(entidade.getAluno());
+		txtDisciplina.setText(entidade.getDisciplina());
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		initializeNodes();	
 	}
 	
-	private void setErrorMessagens(Map<String, String> errors) {
-		Set<String> campos = errors.keySet();
-		
-		if (campos.contains("Nome")) {
-			labelErro.setText(errors.get("Nome"));
-		}
+	private void initializeNodes() {
+		Constraints.setTextFieldInteger(txtId);
+		Constraints.setTextFieldMaxLength(txtDia, 40);
+		Constraints.setTextFieldMaxLength(txtInicio, 40);
+		Constraints.setTextFieldInteger(txtFim);
+		Constraints.setTextFieldMaxLength(txtAluno, 50);
+		Constraints.setTextFieldMaxLength(txtDisciplina, 40);
 	}
 }

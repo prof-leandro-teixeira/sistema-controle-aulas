@@ -99,4 +99,8 @@ public class Aluno implements Serializable {
 				+ ", endereco=" + endereco + ", email=" + email + "]";
 	}
 
-}
+
+		
+	}
+
+

@@ -68,6 +68,7 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 				obj.setTelefone(rs.getInt("Telefone"));
 				obj.setEndereco(rs.getString("Endereco"));
 				obj.setEmail(rs.getString("Email"));
+				list.add(obj);
 				}
 			return list;
 		}
@@ -85,10 +86,10 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO professor "
-				+ "(`Nome`, `Disciplina`, `Telefone`, `Endereco`, `Email`) "
-				+ "VALUES "
-				+ "(?, ?, ?, ?, ?, ?)",
+				"INSERT INTO professor" +
+				"(`Nome`, `Disciplina`, `Telefone`, `Endereco`, `Email`)" +
+				"VALUES" +
+				"(?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
 			
 			st.setString(1, obj.getNome());
@@ -128,7 +129,7 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 					"SET Disciplina = ?" +
 					"SET Telefone = ?" +
 					"SET Endereco = ?" +
-					"SET Email = ? " +
+					"SET Email = ?" +
 					"WHERE Id = ?");
 			
 			st.setString(1, obj.getNome());
@@ -136,6 +137,7 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 			st.setInt(3, obj.getTelefone());
 			st.setString(4, obj.getEndereco());
 			st.setString(5, obj.getEmail());
+			st.setInt(6, obj.getId());
 					
 			st.executeUpdate();
 		}

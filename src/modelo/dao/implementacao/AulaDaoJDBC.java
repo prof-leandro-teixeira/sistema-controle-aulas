@@ -6,36 +6,38 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import db.DB;
 import db.DbException;
-import modelo.dao.AlunoDao;
-import modelos.entidades.Aluno;
+import modelo.dao.AulaDao;
+import modelos.entidades.Aula;
 
-public class AlunoDaoJDBC implements AlunoDao {
+public class AulaDaoJDBC implements AulaDao {
 
 	private Connection conn;
 	
-	public AlunoDaoJDBC(Connection conn) {
+	public AulaDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
 	
 	@Override
-	public Aluno findById(Integer id) {
+	public Aula findById(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM aluno WHERE Id = ?");
+				"SELECT * FROM aula WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Aluno obj = new Aluno();
+				Aula obj = new Aula();
 				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsavel"));
-				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereco"));
-				obj.setEmail(rs.getString("Email"));
+				obj.setDia(rs.getDate("Dia"));
+				obj.setInicio(rs.getDate("Inicio"));
+				obj.setFim(rs.getDate("Fim"));
+				obj.setAluno(rs.getString("Aluno"));
+				obj.setDisciplina(rs.getString("Disciplina"));
+				obj.setProfessor(rs.getString("Professor"));
 				return obj;
 			}
 			return null;
@@ -50,25 +52,25 @@ public class AlunoDaoJDBC implements AlunoDao {
 	}
 	
 	@Override
-	public List<Aluno> findAll() {
+	public List<Aula> findAll() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM aluno ORDER BY Nome");
+				"SELECT * FROM aula ORDER BY Aula");
 			rs = st.executeQuery();
 
-			List<Aluno> list = new ArrayList<>();
+			List<Aula> list = new ArrayList<>();
 
 			while (rs.next()) {
-				Aluno obj = new Aluno();
+				Aula obj = new Aula();
 				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsavel"));
-				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereco"));
-				obj.setEmail(rs.getString("Email"));
-				list.add(obj);
+				obj.setDia(rs.getDate("Dia"));
+				obj.setInicio(rs.getDate("Inicio"));
+				obj.setFim(rs.getDate("Fim"));
+				obj.setAluno(rs.getString("Aluno"));
+				obj.setDisciplina(rs.getString("Disciplina"));
+				obj.setProfessor(rs.getString("Professor"));
 				}
 			return list;
 		}
@@ -82,21 +84,23 @@ public class AlunoDaoJDBC implements AlunoDao {
 	}
 	
 	@Override
-	public void insert(Aluno obj) {
+	public void insert(Aula obj) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO aluno" +
-				"(`Nome`, `Responsavel`, `Telefone`, `Endereco`, `Email`)" +
+				"INSERT INTO Aula " +
+				"(`Dia`, `Inicio`, `Fim`, `Aluno`, `Disciplina`,`Professor`,`Duracao`) " +
 				"VALUES " +
-				"(?, ?, ?, ?, ?)", 
+				"(?, ?, ?, ?, ?, ?, ?)", 
 				Statement.RETURN_GENERATED_KEYS);
 			
-			st.setString(1, obj.getNome());
-			st.setString(2, obj.getResponsavel());
-			st.setInt(3, obj.getTelefone());
-			st.setString(4, obj.getEndereco());
-			st.setString(5, obj.getEmail());
+			st.setDate(1, obj.getDia());
+			st.setDate(2, obj.getInicio());
+			st.setDate(3, obj.getFim());
+			st.setString(4, obj.getAluno());
+			st.setString(5, obj.getDisciplina());
+			st.setString(6, obj.getProfessor());
+			st.setInt(7, obj.getDuracao());
 			
 			int rowsAffected = st.executeUpdate();
 			
@@ -120,24 +124,27 @@ public class AlunoDaoJDBC implements AlunoDao {
 	}
 
 	@Override
-	public void update(Aluno obj) {
+	public void update(Aula obj) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"UPDATE aluno " +
-				"SET Nome = ?" +
-				"SET Responsavel = ?" +
-				"SET Telefone = ?" +
-				"SET Endereco = ?" +
-				"SET Email = ? " +
+				"UPDATE aula " +
+				"SET Dia = ?" +
+				"SET Inicio = ?" +
+				"SET Fim = ?" +
+				"SET Aluno = ?" +
+				"SET Disciplina = ? " +
+				"SET Professor = ? " +
+				"SET Duracao = ? " +
 				"WHERE Id = ?");
 			
-			st.setString(1, obj.getNome());
-			st.setString(2, obj.getResponsavel());
-			st.setInt(3, obj.getTelefone());
-			st.setString(4, obj.getEndereco());
-			st.setString(5, obj.getEmail());
-			st.setInt(6, obj.getId());
+			st.setDate(1, obj.getDia());
+			st.setDate(2, obj.getInicio());
+			st.setDate(3, obj.getFim());
+			st.setString(4, obj.getAluno());
+			st.setString(5, obj.getDisciplina());
+			st.setString(6, obj.getProfessor());
+			st.setInt(7, obj.getDuracao());
 					
 			st.executeUpdate();
 		}
@@ -154,7 +161,7 @@ public class AlunoDaoJDBC implements AlunoDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"DELETE FROM aluno WHERE Id = ?");
+				"DELETE FROM aula WHERE Id = ?");
 			
 			st.setInt(1, id);
 			st.executeUpdate();
