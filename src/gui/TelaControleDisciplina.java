@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -25,54 +24,39 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import modelos.entidades.Aula;
-import modelos.servicos.ServicoAula;
+import modelos.entidades.Disciplina;
+import modelos.servicos.ServicoDisciplina;
 
-public class ControleCadAula implements Initializable, DataChangeListener{
+public class TelaControleDisciplina implements Initializable, DataChangeListener{
 	@FXML
-	private ServicoAula servico;
+	private ServicoDisciplina servico;
 
 	@FXML
-	private TableView<Aula> tableViewAula;	
+	private TableView<Disciplina> tableViewDisciplina;	
 	
 	@FXML
-	private TableColumn<Aula, Integer> tableColunmId;
+	private TableColumn<Disciplina, Integer> tableColunmId;
 	
 	@FXML
-	private TableColumn<Aula, Date> tableColunmDia;
+	private TableColumn<Disciplina, String> tableColunmNome;
 	
 	@FXML
-	private TableColumn<Aula, Date> tableColunmInicio;
+	private TableColumn<Disciplina, String> tableColunmArea;
 	
 	@FXML
-	private TableColumn<Aula, Date> tableColunmFim;
+	private Button btCadDisciplina;
 	
 	@FXML
-	private TableColumn<Aula, String> tableColunmAluno;
-	
-	@FXML
-	private TableColumn<Aula, String> tableColunmDisciplina;
-	
-	@FXML
-	private TableColumn<Aula, String> tableColunmProfessor;
-	
-	@FXML
-	private TableColumn<Aula, String> tableColunmDuracao;
-	
-	@FXML
-	private Button btCadAula;
-	
-	@FXML
-	private ObservableList<Aula> obsList;
+	private ObservableList<Disciplina> obsList;
 	
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		Aula obj = new Aula();
-		criaFormAula(obj,"/gui/FormAula.fxml", parentStage);
+		Disciplina obj = new Disciplina();
+		criaCadastroDisciplina(obj,"/gui/CadastroDisciplina.fxml", parentStage);
 	}
 	
-	public void setServicoAula(ServicoAula servico) {
+	public void setServicoDisciplina(ServicoDisciplina servico) {
 		this.servico = servico;
 	}
 		
@@ -83,40 +67,36 @@ public class ControleCadAula implements Initializable, DataChangeListener{
 
 	private void initializeNodes() {
 		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-		tableColunmDia.setCellValueFactory(new PropertyValueFactory<>("Dia"));
-		tableColunmInicio.setCellValueFactory(new PropertyValueFactory<>("Inicio"));
-		tableColunmFim.setCellValueFactory(new PropertyValueFactory<>("Fim"));
-		tableColunmAluno.setCellValueFactory(new PropertyValueFactory<>("Aluno"));
-		tableColunmDisciplina.setCellValueFactory(new PropertyValueFactory<>("Disciplina"));
-		tableColunmProfessor.setCellValueFactory(new PropertyValueFactory<>("Professor"));
-		tableColunmDuracao.setCellValueFactory(new PropertyValueFactory<>("Duracao"));
-		
+		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
+		tableColunmArea.setCellValueFactory(new PropertyValueFactory<>("Area"));
+				
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewAula.prefHeightProperty().bind(stage.heightProperty());	
+		tableViewDisciplina.prefHeightProperty().bind(stage.heightProperty());	
 	}
 
 	public void updateTableView() {
 		if (servico == null) {
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
-		List<Aula> list = servico.findAll();
+		List<Disciplina> list = servico.findAll();
 		obsList = FXCollections.observableArrayList(list);
-		tableViewAula.setItems(obsList);
+		tableViewDisciplina.setItems(obsList);
 	}
-	private void criaFormAula(Aula obj, String absoluteName,Stage parentStage) {
+	
+	private void criaCadastroDisciplina(Disciplina obj, String absoluteName,Stage parentStage) {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 			
-			ControleFormAula controle = loader.getController();
-			controle.setAula(obj);
-			controle.setServicoAula(new ServicoAula());
+			CadastroDisciplina controle = loader.getController();
+			controle.setDisciplina(obj);
+			controle.setServicoDisciplina(new ServicoDisciplina());
 			controle.subscribeDataChangeListener(this);
 			controle.updateForm();
-			
+						
 			Stage formStage = new Stage();
-			formStage.setTitle("Entre com os dados do aluno.");
+			formStage.setTitle("Entre com os dados da disciplina.");
 			formStage.setScene(new Scene(pane));
 			formStage.setResizable(false);
 			formStage.initOwner(parentStage);
@@ -127,12 +107,10 @@ public class ControleCadAula implements Initializable, DataChangeListener{
 		catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
 		}
-		
 	}
 
 	@Override
 	public void onDataChanded() {
-		updateTableView();
-		
+		updateTableView();	
 	}
 }

@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import modelos.entidades.Professor;
 import modelos.servicos.ServicoProfessor;
 
-public class ControleCadProfessor implements Initializable, DataChangeListener{
+public class TelaControleProfessor implements Initializable, DataChangeListener{
 	@FXML
 	private ServicoProfessor servico;
 
@@ -62,7 +62,7 @@ public class ControleCadProfessor implements Initializable, DataChangeListener{
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Professor obj = new Professor();
-		criaFormProfessor(obj, "/gui/FormProfessor.fxml", parentStage);
+		criaCadastroProfessor(obj, "/gui/CadastroProfessor.fxml", parentStage);
 	}
 	
 	public void setServicoProfessor(ServicoProfessor servico) {
@@ -95,13 +95,13 @@ public class ControleCadProfessor implements Initializable, DataChangeListener{
 		tableViewProfessor.setItems(obsList);
 	}
 
-	private void criaFormProfessor(Professor obj, String absoluteName,Stage parentStage) {
+	private void criaCadastroProfessor(Professor obj, String absoluteName,Stage parentStage) {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 			
-			ControleFormProfessor controle = loader.getController();
+			CadastroProfessor controle = loader.getController();
 			controle.setProfessor(obj);
 			controle.setServicoProfessor(new ServicoProfessor());
 			controle.subscribeDataChangeListener(this);
@@ -119,12 +119,10 @@ public class ControleCadProfessor implements Initializable, DataChangeListener{
 		catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
 		}
-	
 	}
 
 	@Override
 	public void onDataChanded() {
 		updateTableView();
-		
 	}
 }

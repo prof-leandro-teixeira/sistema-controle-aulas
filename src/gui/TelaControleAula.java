@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -24,48 +25,54 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import modelos.entidades.Aluno;
-import modelos.servicos.ServicoAluno;
+import modelos.entidades.Aula;
+import modelos.servicos.ServicoAula;
 
-public class ControleCadAluno implements Initializable, DataChangeListener{
+public class TelaControleAula implements Initializable, DataChangeListener{
 	@FXML
-	private ServicoAluno servico;
+	private ServicoAula servico;
 
 	@FXML
-	private TableView<Aluno> tableViewAluno;	
+	private TableView<Aula> tableViewAula;	
 	
 	@FXML
-	private TableColumn<Aluno, Integer> tableColunmId;
+	private TableColumn<Aula, Integer> tableColunmId;
 	
 	@FXML
-	private TableColumn<Aluno, String> tableColunmNome;
+	private TableColumn<Aula, Date> tableColunmDia;
 	
 	@FXML
-	private TableColumn<Aluno, String> tableColunmResponsavel;
+	private TableColumn<Aula, Date> tableColunmInicio;
 	
 	@FXML
-	private TableColumn<Aluno, Integer> tableColunmTelefone;
+	private TableColumn<Aula, Date> tableColunmFim;
 	
 	@FXML
-	private TableColumn<Aluno, String> tableColunmEndereco;
+	private TableColumn<Aula, String> tableColunmAluno;
 	
 	@FXML
-	private TableColumn<Aluno, String> tableColunmEmail;
+	private TableColumn<Aula, String> tableColunmDisciplina;
 	
 	@FXML
-	private Button btCadAluno;
+	private TableColumn<Aula, String> tableColunmProfessor;
 	
 	@FXML
-	private ObservableList<Aluno> obsList;
+	private TableColumn<Aula, String> tableColunmDuracao;
+	
+	@FXML
+	private Button btCadAula;
+	
+	@FXML
+	private ObservableList<Aula> obsList;
 	
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		Aluno obj = new Aluno();
-		criaFormAluno(obj,"/gui/FormAluno.fxml", parentStage);
+		Aula obj = new Aula();
+		criaCadastroAula(obj,"/gui/CadastroAula.fxml", parentStage);
 	}
 	
-	public void setServicoAluno(ServicoAluno servico) {
+	public void setServicoAula(ServicoAula servico) {
 		this.servico = servico;
 	}
 		
@@ -76,33 +83,35 @@ public class ControleCadAluno implements Initializable, DataChangeListener{
 
 	private void initializeNodes() {
 		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
-		tableColunmResponsavel.setCellValueFactory(new PropertyValueFactory<>("Responsavel"));
-		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("Telefone"));
-		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("Endereco"));
-		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
+		tableColunmDia.setCellValueFactory(new PropertyValueFactory<>("Dia"));
+		tableColunmInicio.setCellValueFactory(new PropertyValueFactory<>("Inicio"));
+		tableColunmFim.setCellValueFactory(new PropertyValueFactory<>("Fim"));
+		tableColunmAluno.setCellValueFactory(new PropertyValueFactory<>("Aluno"));
+		tableColunmDisciplina.setCellValueFactory(new PropertyValueFactory<>("Disciplina"));
+		tableColunmProfessor.setCellValueFactory(new PropertyValueFactory<>("Professor"));
+		tableColunmDuracao.setCellValueFactory(new PropertyValueFactory<>("Duracao"));
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewAluno.prefHeightProperty().bind(stage.heightProperty());	
+		tableViewAula.prefHeightProperty().bind(stage.heightProperty());	
 	}
 
 	public void updateTableView() {
 		if (servico == null) {
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
-		List<Aluno> list = servico.findAll();
+		List<Aula> list = servico.findAll();
 		obsList = FXCollections.observableArrayList(list);
-		tableViewAluno.setItems(obsList);
+		tableViewAula.setItems(obsList);
 	}
-	private void criaFormAluno(Aluno obj, String absoluteName,Stage parentStage) {
+	private void criaCadastroAula(Aula obj, String absoluteName,Stage parentStage) {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 			
-			ControleFormAluno controle = loader.getController();
-			controle.setAluno(obj);
-			controle.setServicoAluno(new ServicoAluno());
+			CadastroAula controle = loader.getController();
+			controle.setAula(obj);
+			controle.setServicoAula(new ServicoAula());
 			controle.subscribeDataChangeListener(this);
 			controle.updateForm();
 			

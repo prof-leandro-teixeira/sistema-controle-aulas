@@ -21,56 +21,58 @@ import modelos.servicos.ServicoAula;
 import modelos.servicos.ServicoDisciplina;
 import modelos.servicos.ServicoProfessor;
 
-public class MainViewController implements Initializable{
+public class TelaControlePrincipal implements Initializable{
 
 	@FXML
-	private MenuItem menuItemCadAula;
-	@FXML
-	public void onMenuItemAulaAction() {
-		loadView("/gui/CadAulas.fxml", (ControleCadAula controle)->{
-			controle.setServicoAula(new ServicoAula());
-			controle.updateTableView();
-			});
-	}	
-	
-	@FXML
-	private MenuItem menuItemCadDisciplina;
-	
-	@FXML
-	private MenuItem menuItemCadProfessor;
-	
-	@FXML
-	private MenuItem menuItemCadAluno;
+	private MenuItem menuItemCadastroAula;
 		
 	@FXML
-	public void onMenuItemCadDisciplinaAction() {
-		loadView("/gui/CadDisciplinas.fxml", (ControleCadDisciplina controle)->{
-			controle.setServicoDisciplina(new ServicoDisciplina());
-			controle.updateTableView();
-			});
-	}
-		
-	@FXML
-	public void onMenuItemCadProfessorAction() {
-		loadView("/gui/CadProfessores.fxml", (ControleCadProfessor controle)->{
-			controle.setServicoProfessor(new ServicoProfessor());
-			controle.updateTableView();
-			});
-	}
+	private MenuItem menuItemCadastroDisciplina;
 	
 	@FXML
-	public void onMenuItemCadAlunoAction() {
-		loadView("/gui/CadAlunos.fxml", (ControleCadAluno controle)->{
+	private MenuItem menuItemCadastroProfessor;
+	
+	@FXML
+	private MenuItem menuItemCadastroAluno;
+	
+	@FXML
+	private MenuItem menuItemContato;
+	
+	@FXML
+	public void onMenuItemCadastroAlunoAction() {
+		loadView("/gui/TelaAlunos.fxml", (TelaControleAluno controle)->{
 			controle.setServicoAluno(new ServicoAluno());
 			controle.updateTableView();
 			});
 	}
 	
 	@FXML
-	private MenuItem menuItemContato;
+	public void onMenuItemAulaAction() {
+		loadView("/gui/TelaAulas.fxml", (TelaControleAula controle)->{
+			controle.setServicoAula(new ServicoAula());
+			controle.updateTableView();
+			});
+	}	
+		
+	@FXML
+	public void onMenuItemCadastroDisciplinaAction() {
+		loadView("/gui/TelaDisciplinas.fxml", (TelaControleDisciplina controle)->{
+			controle.setServicoDisciplina(new ServicoDisciplina());
+			controle.updateTableView();
+			});
+	}
+		
+	@FXML
+	public void onMenuItemCadastroProfessorAction() {
+		loadView("/gui/TelaProfessores.fxml", (TelaControleProfessor controle)->{
+			controle.setServicoProfessor(new ServicoProfessor());
+			controle.updateTableView();
+			});
+	}
+	
 	@FXML
 	public void onMenuItemContatoAction() {
-		loadView("/gui/Contato.fxml", x -> {});
+		loadView("/gui/TelaContato.fxml", x -> {});
 	}
 	
 	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {

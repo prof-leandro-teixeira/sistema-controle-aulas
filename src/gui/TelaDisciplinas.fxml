@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="291.0" prefWidth="543.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ControleCadDisciplina">
+<VBox prefHeight="291.0" prefWidth="543.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaControleDisciplina">
    <children>
       <Label text="Cadastro de Disciplina">
          <padding>

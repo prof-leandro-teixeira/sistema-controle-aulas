@@ -24,39 +24,48 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import modelos.entidades.Disciplina;
-import modelos.servicos.ServicoDisciplina;
+import modelos.entidades.Aluno;
+import modelos.servicos.ServicoAluno;
 
-public class ControleCadDisciplina implements Initializable, DataChangeListener{
+public class TelaControleAluno implements Initializable, DataChangeListener{
 	@FXML
-	private ServicoDisciplina servico;
+	private ServicoAluno servico;
 
 	@FXML
-	private TableView<Disciplina> tableViewDisciplina;	
+	private TableView<Aluno> tableViewAluno;	
 	
 	@FXML
-	private TableColumn<Disciplina, Integer> tableColunmId;
+	private TableColumn<Aluno, Integer> tableColunmId;
 	
 	@FXML
-	private TableColumn<Disciplina, String> tableColunmNome;
+	private TableColumn<Aluno, String> tableColunmNome;
 	
 	@FXML
-	private TableColumn<Disciplina, String> tableColunmArea;
+	private TableColumn<Aluno, String> tableColunmResponsavel;
 	
 	@FXML
-	private Button btCadDisciplina;
+	private TableColumn<Aluno, Integer> tableColunmTelefone;
 	
 	@FXML
-	private ObservableList<Disciplina> obsList;
+	private TableColumn<Aluno, String> tableColunmEndereco;
+	
+	@FXML
+	private TableColumn<Aluno, String> tableColunmEmail;
+	
+	@FXML
+	private Button btCadAluno;
+	
+	@FXML
+	private ObservableList<Aluno> obsList;
 	
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		Disciplina obj = new Disciplina();
-		criaFormDisciplina(obj,"/gui/FormDisciplina.fxml", parentStage);
+		Aluno obj = new Aluno();
+		criaCadastroAluno(obj,"/gui/CadastroAluno.fxml", parentStage);
 	}
 	
-	public void setServicoDisciplina(ServicoDisciplina servico) {
+	public void setServicoAluno(ServicoAluno servico) {
 		this.servico = servico;
 	}
 		
@@ -68,35 +77,37 @@ public class ControleCadDisciplina implements Initializable, DataChangeListener{
 	private void initializeNodes() {
 		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
 		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
-		tableColunmArea.setCellValueFactory(new PropertyValueFactory<>("Area"));
-				
+		tableColunmResponsavel.setCellValueFactory(new PropertyValueFactory<>("Responsavel"));
+		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("Telefone"));
+		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("Endereco"));
+		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
+		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewDisciplina.prefHeightProperty().bind(stage.heightProperty());	
+		tableViewAluno.prefHeightProperty().bind(stage.heightProperty());	
 	}
 
 	public void updateTableView() {
 		if (servico == null) {
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
-		List<Disciplina> list = servico.findAll();
+		List<Aluno> list = servico.findAll();
 		obsList = FXCollections.observableArrayList(list);
-		tableViewDisciplina.setItems(obsList);
+		tableViewAluno.setItems(obsList);
 	}
-	
-	private void criaFormDisciplina(Disciplina obj, String absoluteName,Stage parentStage) {
+	private void criaCadastroAluno(Aluno obj, String absoluteName,Stage parentStage) {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 			
-			ControleFormDisciplina controle = loader.getController();
-			controle.setDisciplina(obj);
-			controle.setServicoDisciplina(new ServicoDisciplina());
+			CadastroAluno controle = loader.getController();
+			controle.setAluno(obj);
+			controle.setServicoAluno(new ServicoAluno());
 			controle.subscribeDataChangeListener(this);
 			controle.updateForm();
-						
+			
 			Stage formStage = new Stage();
-			formStage.setTitle("Entre com os dados da disciplina.");
+			formStage.setTitle("Entre com os dados do aluno.");
 			formStage.setScene(new Scene(pane));
 			formStage.setResizable(false);
 			formStage.initOwner(parentStage);

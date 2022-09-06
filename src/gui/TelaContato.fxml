@@ -15,7 +15,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="22.0" text="Desenvolvedor: Leandro Teixeira. Contato: 031 994060473&quot;)">
+      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="22.0" text="Desenvolvedor: Leandro Teixeira. Contato: 031 994060473">
          <padding>
             <Insets left="20.0" top="5.0" />
          </padding>

@@ -20,14 +20,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import modelo.exceptions.ValidationException;
-import modelos.entidades.Aluno;
-import modelos.servicos.ServicoAluno;
+import modelos.entidades.Disciplina;
+import modelos.servicos.ServicoDisciplina;
 
-public class ControleFormAluno implements Initializable {
+public class CadastroDisciplina implements Initializable {
 	
-	private Aluno entidade;
+	private Disciplina entidade;
 	
-	private ServicoAluno servico;
+	private ServicoDisciplina servico;
 	
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
@@ -38,31 +38,22 @@ public class ControleFormAluno implements Initializable {
 	private TextField txtNome;
 	
 	@FXML
-	private TextField txtResponsavel;
-	
-	@FXML
-	private TextField txtTelefone;
-	
-	@FXML
-	private TextField txtEndereco;
-	
-	@FXML
-	private TextField txtEmail;
+	private TextField txtArea;
 	
 	@FXML
 	private Label labelErro;
 	
 	@FXML
-	private Button btSalvaAluno;
+	private Button btSalva;
 	
 	@FXML
-	private Button btCancelaAluno;
+	private Button btCancela;
 	
-	public void setAluno (Aluno entidade) {
+	public void setDisciplina (Disciplina entidade) {
 		this.entidade = entidade;
 	}
 	
-	public void setServicoAluno (ServicoAluno servico) {
+	public void setServicoDisciplina (ServicoDisciplina servico) {
 		this.servico = servico;
 	}
 	
@@ -92,47 +83,29 @@ public class ControleFormAluno implements Initializable {
 			Alerts.showAlert("Erro ao salvar objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
-	
+
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners){
 			listener.onDataChanded();
-		}		
+		}
+		
 	}
 
-	private Aluno getForm() {
-		Aluno obj = new Aluno();
-		ValidationException exception = new ValidationException("Erro de Validação");
+	private Disciplina getForm() {
+		Disciplina obj = new Disciplina();
 		
+		ValidationException exception = new ValidationException("Erro de Validação");
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		
-		if (txtNome.getText()==null || txtNome.getText().trim().equals("")){
+		if (txtNome.getText()== null || txtNome.getText().trim().equals("")){
 			exception.addError("Nome", "Campo não pode ficar vazio");
 		}
 		obj.setNome(txtNome.getText());
 		
-		
-		if (txtResponsavel.getText()== null || txtResponsavel.getText().trim().equals("")){
-			exception.addError("Responsavel", "Campo não pode ficar vazio");
+		if (txtArea.getText()== null || txtArea.getText().trim().equals("")){
+			exception.addError("Area", "Campo não pode ficar vazio");
 		}
-		obj.setResponsavel(txtResponsavel.getText());
-		
-		
-		if (txtTelefone.getText()== null || txtTelefone.getText().trim().equals("")){
-			exception.addError("Telefone", "Campo não pode ficar vazio");
-		}
-		obj.setTelefone(Utils.tryParseToInt(txtTelefone.getText()));
-		
-		if (txtEndereco.getText()== null || txtEndereco.getText().trim().equals("")){
-			exception.addError("Endereco", "Campo não pode ficar vazio");
-		}
-		obj.setEndereco(txtEndereco.getText());
-		
-		
-		if (txtEmail.getText()== null || txtEmail.getText().trim().equals("")){
-			exception.addError("Endereco", "Campo não pode ficar vazio");
-		}
-		obj.setEmail(txtEmail.getText());
-		
+		obj.setArea(txtArea.getText());
 		if (exception.getErrors().size() > 0) {
 			throw exception;
 		}
@@ -153,22 +126,17 @@ public class ControleFormAluno implements Initializable {
 	
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtNome, 50);
-		Constraints.setTextFieldMaxLength(txtResponsavel, 50);
-		Constraints.setTextFieldMaxLength(txtTelefone, 50);
-		Constraints.setTextFieldMaxLength(txtEndereco, 50);
-		Constraints.setTextFieldMaxLength(txtEmail, 50);
+		Constraints.setTextFieldMaxLength(txtNome, 30);
+		Constraints.setTextFieldMaxLength(txtArea, 30);
 	}
+
 	public void updateForm() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade vazia");
 		}
 		txtId.setText(String.valueOf(entidade.getId()));
 		txtNome.setText(entidade.getNome());
-		txtResponsavel.setText(entidade.getResponsavel());
-		txtTelefone.setText(String.valueOf(entidade.getTelefone()));
-		txtEndereco.setText(entidade.getEndereco());
-		txtEmail.setText(entidade.getEmail());
+		txtArea.setText(entidade.getArea());
 	}
 	
 	private void setErrorMessagens(Map<String, String> errors) {

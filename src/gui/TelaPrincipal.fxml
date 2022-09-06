@@ -6,18 +6,18 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="414.0" prefWidth="835.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600" prefWidth="1200" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaControlePrincipal">
    <content>
-      <VBox prefHeight="362.0" prefWidth="568.0">
+      <VBox>
          <children>
             <MenuBar>
               <menus>
                   <Menu mnemonicParsing="false" text="CADASTROS">
                      <items>
-                        <MenuItem fx:id="menuItemCadAluno" mnemonicParsing="false" onAction="#onMenuItemCadAlunoAction" text="ALUNO" />
-                        <MenuItem fx:id="menuItemCadAula" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
-                        <MenuItem fx:id="menuItemCadDisciplina" mnemonicParsing="false" onAction="#onMenuItemCadDisciplinaAction" text="DISCIPLINA" />
-                        <MenuItem fx:id="menuItemCadProfessor" mnemonicParsing="false" onAction="#onMenuItemCadProfessorAction" text="PROFESSOR" />
+                        <MenuItem fx:id="menuItemCadastroAluno" mnemonicParsing="false" onAction="#onMenuItemCadastroAlunoAction" text="ALUNO" />
+                        <MenuItem fx:id="menuItemCadastroAula" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
+                        <MenuItem fx:id="menuItemCadastroDisciplina" mnemonicParsing="false" onAction="#onMenuItemCadastroDisciplinaAction" text="DISCIPLINA" />
+                        <MenuItem fx:id="menuItemCadastroProfessor" mnemonicParsing="false" onAction="#onMenuItemCadastroProfessorAction" text="PROFESSOR" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="CONTATO">
