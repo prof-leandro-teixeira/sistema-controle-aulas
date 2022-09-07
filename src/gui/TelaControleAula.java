@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
+import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +22,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -58,6 +63,12 @@ public class TelaControleAula implements Initializable, DataChangeListener{
 	
 	@FXML
 	private TableColumn<Aula, String> tableColunmDuracao;
+	
+	@FXML
+	private TableColumn<Aula, Aula> tableColunmEdita;
+
+	@FXML
+	private TableColumn<Aula, Aula> tableColunmRemove;
 	
 	@FXML
 	private Button btCadAula;
@@ -102,6 +113,8 @@ public class TelaControleAula implements Initializable, DataChangeListener{
 		List<Aula> list = servico.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewAula.setItems(obsList);
+		BtEditar();
+		BtRemove();
 	}
 	private void criaCadastroAula(Aula obj, String absoluteName,Stage parentStage) {
 		
@@ -116,7 +129,7 @@ public class TelaControleAula implements Initializable, DataChangeListener{
 			controle.updateForm();
 			
 			Stage formStage = new Stage();
-			formStage.setTitle("Entre com os dados do aluno.");
+			formStage.setTitle("Entre com os dados da aula.");
 			formStage.setScene(new Scene(pane));
 			formStage.setResizable(false);
 			formStage.initOwner(parentStage);
@@ -133,6 +146,60 @@ public class TelaControleAula implements Initializable, DataChangeListener{
 	@Override
 	public void onDataChanded() {
 		updateTableView();
-		
+	}
+
+	private void BtEditar() {
+		tableColunmEdita.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColunmEdita.setCellFactory(param -> new TableCell<Aula, Aula>() {
+			private final Button button = new Button("Editar");
+
+			@Override
+			protected void updateItem(Aula obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(
+						event -> criaCadastroAula(obj, "/gui/CadastroAula.fxml", Utils.currentStage(event)));
+			}
+		});
+	}
+
+	private void BtRemove() {
+		tableColunmRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColunmRemove.setCellFactory(param -> new TableCell<Aula, Aula>() {
+			private final Button button = new Button("Remove");
+
+			@Override
+			protected void updateItem(Aula obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removeEntity(obj));
+			}
+		});
+	}
+
+	private void removeEntity(Aula obj) {
+		Optional<ButtonType> resultado = Alerts.showConfirmation("AÇÃO NÃO PODE SER DESFEITA!",
+				"Você está certo desta ação?");
+		if (resultado.get() == ButtonType.OK) {
+			if (servico == null) {
+				throw new IllegalStateException("Serviço não pode ficar vazio.");
+			}
+			try {
+				servico.deleta(obj);
+				updateTableView();
+			} catch (DbIntegrityException e) {
+				Alerts.showAlert("Erro ao remover objeto", null, e.getMessage(), AlertType.ERROR);
+
+			}
+		}
+
 	}
 }

@@ -8,17 +8,20 @@ import modelos.entidades.Aula;
 
 public class ServicoAula {
 	private AulaDao dao = FabricaDao.createAulaDao();
-	
-		public List<Aula> findAll(){
-			return dao.findAll();
+
+	public List<Aula> findAll() {
+		return dao.findAll();
+	}
+
+	public void salvaOuAtualiza(Aula obj) {
+		if (obj.getId() == null) {
+			dao.insert(obj);
+		} else {
+			dao.update(obj);
 		}
-		
-		public void salvaOuAtualiza(Aula obj) {
-			if (obj.getId() == null) {
-				dao.insert(obj);
-			}
-			else {
-				dao.update(obj);
-			}
-		}
+	}
+
+	public void deleta(Aula obj) {
+		dao.deleteById(obj.getId());
+	}
 }

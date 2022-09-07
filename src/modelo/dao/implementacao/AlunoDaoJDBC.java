@@ -89,7 +89,7 @@ public class AlunoDaoJDBC implements AlunoDao {
 				"INSERT INTO aluno" +
 				"(`Nome`, `Responsavel`, `Telefone`, `Endereco`, `Email`)" +
 				"VALUES " +
-				"(?, ?, ?, ?, ?)", 
+				"(?,?,?,?,?)", 
 				Statement.RETURN_GENERATED_KEYS);
 			
 			st.setString(1, obj.getNome());
@@ -97,7 +97,7 @@ public class AlunoDaoJDBC implements AlunoDao {
 			st.setInt(3, obj.getTelefone());
 			st.setString(4, obj.getEndereco());
 			st.setString(5, obj.getEmail());
-			
+						
 			int rowsAffected = st.executeUpdate();
 			
 			if (rowsAffected > 0) {
@@ -124,13 +124,9 @@ public class AlunoDaoJDBC implements AlunoDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"UPDATE aluno " +
-				"SET Nome = ?" +
-				"SET Responsavel = ?" +
-				"SET Telefone = ?" +
-				"SET Endereco = ?" +
-				"SET Email = ? " +
-				"WHERE Id = ?");
+					"UPDATE aluno " 
+					+ "SET Nome = ?, Responsavel = ?, Telefone = ?, Endereco = ?, Email = ? "
+					+ "WHERE Id = ?");
 			
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getResponsavel());

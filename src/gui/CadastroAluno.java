@@ -101,15 +101,14 @@ public class CadastroAluno implements Initializable {
 
 	private Aluno getForm() {
 		Aluno obj = new Aluno();
-		ValidationException exception = new ValidationException("Erro de Validação");
 		
+		ValidationException exception = new ValidationException("Erro de Validação");
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		
 		if (txtNome.getText()== null || txtNome.getText().trim().equals("")){
 			exception.addError("Nome", "Campo não pode ficar vazio");
 		}
 		obj.setNome(txtNome.getText());
-		
 		
 		if (txtResponsavel.getText()== null || txtResponsavel.getText().trim().equals("")){
 			exception.addError("Responsavel", "Campo não pode ficar vazio");

@@ -12,13 +12,21 @@
          <children>
             <MenuBar>
               <menus>
-                  <Menu mnemonicParsing="false" text="CADASTROS">
+                  <Menu mnemonicParsing="false" text="MENU PRINCIPAL">
                      <items>
                         <MenuItem fx:id="menuItemCadastroAluno" mnemonicParsing="false" onAction="#onMenuItemCadastroAlunoAction" text="ALUNO" />
                         <MenuItem fx:id="menuItemCadastroAula" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
                         <MenuItem fx:id="menuItemCadastroDisciplina" mnemonicParsing="false" onAction="#onMenuItemCadastroDisciplinaAction" text="DISCIPLINA" />
                         <MenuItem fx:id="menuItemCadastroProfessor" mnemonicParsing="false" onAction="#onMenuItemCadastroProfessorAction" text="PROFESSOR" />
                      </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="RELARÓRIOS">
+                    <items>
+                        <MenuItem fx:id="menuItemCadastroAluno1" mnemonicParsing="false" onAction="#onMenuItemCadastroAlunoAction" text="ALUNO" />
+                        <MenuItem fx:id="menuItemCadastroAula1" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
+                        <MenuItem fx:id="menuItemCadastroDisciplina1" mnemonicParsing="false" onAction="#onMenuItemCadastroDisciplinaAction" text="DISCIPLINA" />
+                        <MenuItem fx:id="menuItemCadastroProfessor1" mnemonicParsing="false" onAction="#onMenuItemCadastroProfessorAction" text="PROFESSOR" />
+                    </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="CONTATO">
                      <items>

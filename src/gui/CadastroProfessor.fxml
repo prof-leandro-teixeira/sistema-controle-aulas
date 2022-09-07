@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CadastroProfessor">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CadastroProfessor">
    <children>
-      <GridPane prefHeight="287.0" prefWidth="673.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <GridPane prefHeight="293.0" prefWidth="785.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="54.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="8.0" prefWidth="8.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="10.0" prefWidth="320.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="302.0" minWidth="8.0" prefWidth="302.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="386.0" minWidth="10.0" prefWidth="375.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -35,7 +35,7 @@
             <Label fx:id="labelErro" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
-                  <Button fx:id="btSalva" mnemonicParsing="false" onAction="#onBtSaveAction" text="Salvar" />
+                  <Button fx:id="btSalva" mnemonicParsing="false" onAction="#onBtSaveAction" prefHeight="25.0" prefWidth="62.0" text="Salvar" />
                   <Button fx:id="btCancela" mnemonicParsing="false" onAction="#onBtCancelAction" text="Cancelar" />
                </children>
                <padding>

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="291.0" prefWidth="543.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaControleProfessor">
+<VBox prefHeight="310.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaControleProfessor">
    <children>
       <Label text="Cadastro de Professores">
          <padding>
@@ -32,6 +32,8 @@
             <TableColumn fx:id="tableColunmTelefone" prefWidth="75.0" text="TELEFONE" />
             <TableColumn fx:id="tableColunmEmail" prefWidth="106.0" text="E-MAIL" />
             <TableColumn fx:id="tableColunmEndereco" prefWidth="75.0" text="ENDEREÇO" />
+            <TableColumn fx:id="tableColunmEdita" prefWidth="70.0" />
+            <TableColumn fx:id="tableColunmRemove" prefWidth="70.0" />
         </columns>
       </TableView>
    </children>

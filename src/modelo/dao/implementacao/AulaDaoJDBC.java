@@ -128,15 +128,10 @@ public class AulaDaoJDBC implements AulaDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"UPDATE aula " +
-				"SET Dia = ?" +
-				"SET Inicio = ?" +
-				"SET Fim = ?" +
-				"SET Aluno = ?" +
-				"SET Disciplina = ? " +
-				"SET Professor = ? " +
-				"SET Duracao = ? " +
-				"WHERE Id = ?");
+					
+				"UPDATE aluno " 
+				+ "SET Dia = ?,	Inicio = ?, Fim = ?, Aluno = ?, Disciplina = ?, Professor = ?, Duracao = ? "
+				+ "WHERE Id = ?");
 			
 			st.setDate(1, obj.getDia());
 			st.setDate(2, obj.getInicio());

@@ -8,17 +8,20 @@ import modelos.entidades.Professor;
 
 public class ServicoProfessor {
 	private ProfessorDao dao = FabricaDao.createProfessorDao();
-		
-		public List<Professor> findAll(){
-			return dao.findAll();
+
+	public List<Professor> findAll() {
+		return dao.findAll();
+	}
+
+	public void salvaOuAtualiza(Professor obj) {
+		if (obj.getId() == null) {
+			dao.insert(obj);
+		} else {
+			dao.update(obj);
 		}
-		
-		public void salvaOuAtualiza(Professor obj) {
-			if (obj.getId() == null) {
-				dao.insert(obj);
-			}
-			else {
-				dao.update(obj);
-			}
-		}
+	}
+
+	public void deleta(Professor obj) {
+		dao.deleteById(obj.getId());
+	}
 }

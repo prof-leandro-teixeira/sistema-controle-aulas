@@ -3,12 +3,15 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
+import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -51,6 +56,12 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 	
 	@FXML
 	private TableColumn<Professor, String> tableColunmEmail;
+	
+	@FXML
+	private TableColumn<Professor, Professor> tableColunmEdita;
+
+	@FXML
+	private TableColumn<Professor, Professor> tableColunmRemove;
 	
 	@FXML
 	private Button btCadProfessor;
@@ -93,6 +104,8 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 		List<Professor> list = servico.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewProfessor.setItems(obsList);
+		BtEditar();
+		BtRemove();
 	}
 
 	private void criaCadastroProfessor(Professor obj, String absoluteName,Stage parentStage) {
@@ -124,5 +137,60 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 	@Override
 	public void onDataChanded() {
 		updateTableView();
+	}
+
+	private void BtEditar() {
+		tableColunmEdita.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColunmEdita.setCellFactory(param -> new TableCell<Professor, Professor>() {
+			private final Button button = new Button("Editar");
+
+			@Override
+			protected void updateItem(Professor obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(
+						event -> criaCadastroProfessor(obj, "/gui/CadastroProfessor.fxml", Utils.currentStage(event)));
+			}
+		});
+	}
+
+	private void BtRemove() {
+		tableColunmRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColunmRemove.setCellFactory(param -> new TableCell<Professor, Professor>() {
+			private final Button button = new Button("Remove");
+
+			@Override
+			protected void updateItem(Professor obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removeEntity(obj));
+			}
+		});
+	}
+
+	private void removeEntity(Professor obj) {
+		Optional<ButtonType> resultado = Alerts.showConfirmation("AÇÃO NÃO PODE SER DESFEITA!",
+				"Você está certo desta ação?");
+		if (resultado.get() == ButtonType.OK) {
+			if (servico == null) {
+				throw new IllegalStateException("Serviço não pode ficar vazio.");
+			}
+			try {
+				servico.deleta(obj);
+				updateTableView();
+			} catch (DbIntegrityException e) {
+				Alerts.showAlert("Erro ao remover objeto", null, e.getMessage(), AlertType.ERROR);
+
+			}
+		}
+
 	}
 }

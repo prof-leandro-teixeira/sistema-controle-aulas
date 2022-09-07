@@ -8,17 +8,20 @@ import modelos.entidades.Aluno;
 
 public class ServicoAluno {
 	private AlunoDao dao = FabricaDao.createAlunoDao();
-	
-		public List<Aluno> findAll(){
-			return dao.findAll();
+
+	public List<Aluno> findAll() {
+		return dao.findAll();
+	}
+
+	public void salvaOuAtualiza(Aluno obj) {
+		if (obj.getId() == null) {
+			dao.insert(obj);
+		} else {
+			dao.update(obj);
 		}
-		
-		public void salvaOuAtualiza(Aluno obj) {
-			if (obj.getId() == null) {
-				dao.insert(obj);
-			}
-			else {
-				dao.update(obj);
-			}
-		}
+	}
+
+	public void deleta(Aluno obj) {
+		dao.deleteById(obj.getId());
+	}
 }

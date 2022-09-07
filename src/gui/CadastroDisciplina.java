@@ -106,6 +106,7 @@ public class CadastroDisciplina implements Initializable {
 			exception.addError("Area", "Campo não pode ficar vazio");
 		}
 		obj.setArea(txtArea.getText());
+		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
 		}
@@ -120,8 +121,7 @@ public class CadastroDisciplina implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		initializeNodes();
-		
+		initializeNodes();	
 	}
 	
 	private void initializeNodes() {

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import db.DB;
 import db.DbException;
 import db.DbIntegrityException;
@@ -81,15 +82,15 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO disciplina" +
-				"(`Nome`,`Area`)"+
+				"INSERT INTO disciplina " +
+				"(`Nome`, `Area`) " +
 				"VALUES " +
 				"(?,?)", 
 				Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getArea());
-
+			
 			int rowsAffected = st.executeUpdate();
 			
 			if (rowsAffected > 0) {
@@ -116,10 +117,9 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"UPDATE disciplina " +
-				"SET Nome = ? " +
-				"SET Area = ? " +
-				"WHERE Id = ?");
+					"UPDATE disciplina " 
+					+ "SET Nome = ?, Area = ? "
+					+ "WHERE Id = ?");
 
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getArea());

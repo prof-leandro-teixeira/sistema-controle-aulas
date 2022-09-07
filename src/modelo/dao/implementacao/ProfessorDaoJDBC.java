@@ -124,13 +124,9 @@ public class ProfessorDaoJDBC implements ProfessorDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"UPDATE aluno " +
-					"SET Nome = ?" +
-					"SET Disciplina = ?" +
-					"SET Telefone = ?" +
-					"SET Endereco = ?" +
-					"SET Email = ?" +
-					"WHERE Id = ?");
+					"UPDATE professor " 
+					+ "SET Nome = ?, Disciplina = ?, Telefone = ?, Endereco = ?, Email = ? "
+					+ "WHERE Id = ?");
 			
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getDisciplina());
