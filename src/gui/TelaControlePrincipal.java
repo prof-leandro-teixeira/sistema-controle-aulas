@@ -37,7 +37,7 @@ public class TelaControlePrincipal implements Initializable{
 	private MenuItem menuItemCadastroAluno;
 	
 	@FXML
-	private MenuItem menuItemCadastromMelhoria;
+	private MenuItem menuItemCadastroMelhoria;
 	
 	@FXML
 	private MenuItem menuItemContato;

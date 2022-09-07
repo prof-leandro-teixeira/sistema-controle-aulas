@@ -27,7 +27,7 @@ public class MelhoriaDaoJDBC implements MelhoriaDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM melhoria WHERE Id = ?");
+				"SELECT * FROM disciplina WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
@@ -101,7 +101,7 @@ public class MelhoriaDaoJDBC implements MelhoriaDao {
 				}
 			}
 			else {
-				throw new DbException("Unexpected error! No rows affected!");
+				throw new DbException("Unexpected error! Nenhuma linha alterada!");
 			}
 		}
 		catch (SQLException e) {
