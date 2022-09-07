@@ -93,7 +93,7 @@ public class TelaControleDisciplina implements Initializable, DataChangeListener
 		obsList = FXCollections.observableArrayList(list);
 		tableViewDisciplina.setItems(obsList);
 		BtEditar();
-		BtRemove();
+		BtRemover();
 	}
 
 	private void criaCadastroDisciplina(Disciplina obj, String absoluteName, Stage parentStage) {
@@ -145,10 +145,10 @@ public class TelaControleDisciplina implements Initializable, DataChangeListener
 		});
 	}
 
-	private void BtRemove() {
+	private void BtRemover() {
 		tableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnRemove.setCellFactory(param -> new TableCell<Disciplina, Disciplina>() {
-			private final Button button = new Button("Remove");
+			private final Button button = new Button("Remover");
 
 			@Override
 			protected void updateItem(Disciplina obj, boolean empty) {

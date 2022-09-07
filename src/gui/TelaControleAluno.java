@@ -105,7 +105,7 @@ public class TelaControleAluno implements Initializable, DataChangeListener {
 		obsList = FXCollections.observableArrayList(list);
 		tableViewAluno.setItems(obsList);
 		BtEditar();
-		BtRemove();
+		BtRemover();
 	}
 
 	private void criaCadastroAluno(Aluno obj, String absoluteName, Stage parentStage) {
@@ -157,10 +157,10 @@ public class TelaControleAluno implements Initializable, DataChangeListener {
 		});
 	}
 
-	private void BtRemove() {
+	private void BtRemover() {
 		tableColunmRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColunmRemove.setCellFactory(param -> new TableCell<Aluno, Aluno>() {
-			private final Button button = new Button("Remove");
+			private final Button button = new Button("Remover");
 
 			@Override
 			protected void updateItem(Aluno obj, boolean empty) {

@@ -1,7 +1,5 @@
 package modelo.dao.implementacao;
-
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,29 +10,31 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import db.DbIntegrityException;
-import modelo.dao.AulaDao;
-import modelos.entidades.Aula;
+import modelo.dao.MelhoriaDao;
+import modelos.entidades.Melhoria;
 
-public class AulaDaoJDBC implements AulaDao {
+public class MelhoriaDaoJDBC implements MelhoriaDao {
 
 	private Connection conn;
 	
-	public AulaDaoJDBC(Connection conn) {
+	public MelhoriaDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
 	
 	@Override
-	public Aula findById(Integer id) {
+	public Melhoria findById(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina WHERE Id = ?");
+				"SELECT * FROM melhoria WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Aula obj = new Aula();
+				Melhoria obj = new Melhoria();
 				obj.setId(rs.getInt("Id"));
+				obj.setTipo(rs.getString("Tipo"));
+				obj.setDescricao(rs.getString("Descricao"));
 				return obj;
 			}
 			return null;
@@ -49,19 +49,21 @@ public class AulaDaoJDBC implements AulaDao {
 	}
 
 	@Override
-	public List<Aula> findAll() {
+	public List<Melhoria> findAll() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina ORDER BY Name");
+				"SELECT * FROM melhoria ORDER BY Tipo");
 			rs = st.executeQuery();
 
-			List<Aula> list = new ArrayList<>();
+			List<Melhoria> list = new ArrayList<>();
 
 			while (rs.next()) {
-				Aula obj = new Aula();
+				Melhoria obj = new Melhoria();
 				obj.setId(rs.getInt("Id"));
+				obj.setTipo(rs.getString("Tipo"));
+				obj.setDescricao(rs.getString("Descricao"));
 				list.add(obj);
 			}
 			return list;
@@ -76,28 +78,19 @@ public class AulaDaoJDBC implements AulaDao {
 	}
 
 	@Override
-	public void insert(Aula obj) {
+	public void insert(Melhoria obj) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO aula " +
-				"(Dia) " +
-				"(HoraInicio)"  +		
-				"(HoraFim)"  +	
-				"(Aluno)"  +
-				"(Disciplina)"  +
-				"(Professor)"  +
+				"INSERT INTO melhoria " +
+				"(`Tipo`, `Descricao`) " +
 				"VALUES " +
-				"(?,?,?,?,?,?)", 
+				"(?,?)", 
 				Statement.RETURN_GENERATED_KEYS);
 
-			st.setDate(1, (Date) obj.getDia());
-			st.setDate(2, (Date) obj.getHoraInicio());
-			st.setDate(3, (Date )obj.getHoraFim());
-			st.setString(4, obj.getAluno().toString());
-			st.setString(5, obj.getDisciplina().toString());
-			st.setString(6, obj.getProfessor().toString());
-
+			st.setString(1, obj.getTipo());
+			st.setString(2, obj.getDescricao());
+			
 			int rowsAffected = st.executeUpdate();
 			
 			if (rowsAffected > 0) {
@@ -120,27 +113,17 @@ public class AulaDaoJDBC implements AulaDao {
 	}
 
 	@Override
-	public void update(Aula obj) {
+	public void update(Melhoria obj) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"INSERT INTO aula " +
-					"(Dia) " +
-					"(HoraInicio)"  +		
-					"(HoraFim)"  +	
-					"(Aluno)"  +
-					"(Disciplina)"  +
-					"(Professor)"  +
-					"VALUES " +
-					"(?,?,?,?,?,?)", 
-					Statement.RETURN_GENERATED_KEYS);
+					"UPDATE melhoria " 
+					+ "SET Tipo = ?, Descricao = ? "
+					+ "WHERE Id = ?");
 
-			st.setDate(1, (Date) obj.getDia());
-			st.setDate(2, (Date) obj.getHoraInicio());
-			st.setDate(3, (Date )obj.getHoraFim());
-			st.setString(4, obj.getAluno().toString());
-			st.setString(5, obj.getDisciplina().toString());
-			st.setString(6, obj.getProfessor().toString());
+			st.setString(1, obj.getTipo());
+			st.setString(2, obj.getDescricao());
+			st.setInt(3, obj.getId());
 
 			st.executeUpdate();
 		}
@@ -157,10 +140,9 @@ public class AulaDaoJDBC implements AulaDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"DELETE FROM disciplina WHERE Id = ?");
+				"DELETE FROM melhoria WHERE Id = ?");
 
 			st.setInt(1, id);
-
 			st.executeUpdate();
 		}
 		catch (SQLException e) {

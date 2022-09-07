@@ -114,7 +114,7 @@ public class TelaControleAula implements Initializable, DataChangeListener{
 		obsList = FXCollections.observableArrayList(list);
 		tableViewAula.setItems(obsList);
 		BtEditar();
-		BtRemove();
+		BtRemover();
 	}
 	private void criaCadastroAula(Aula obj, String absoluteName,Stage parentStage) {
 		
@@ -167,10 +167,10 @@ public class TelaControleAula implements Initializable, DataChangeListener{
 		});
 	}
 
-	private void BtRemove() {
+	private void BtRemover() {
 		tableColunmRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColunmRemove.setCellFactory(param -> new TableCell<Aula, Aula>() {
-			private final Button button = new Button("Remove");
+			private final Button button = new Button("Remover");
 
 			@Override
 			protected void updateItem(Aula obj, boolean empty) {

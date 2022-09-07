@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import modelos.servicos.ServicoAluno;
 import modelos.servicos.ServicoAula;
 import modelos.servicos.ServicoDisciplina;
+import modelos.servicos.ServicoMelhoria;
 import modelos.servicos.ServicoProfessor;
 
 public class TelaControlePrincipal implements Initializable{
@@ -34,6 +35,9 @@ public class TelaControlePrincipal implements Initializable{
 	
 	@FXML
 	private MenuItem menuItemCadastroAluno;
+	
+	@FXML
+	private MenuItem menuItemCadastromMelhoria;
 	
 	@FXML
 	private MenuItem menuItemContato;
@@ -58,6 +62,14 @@ public class TelaControlePrincipal implements Initializable{
 	public void onMenuItemCadastroDisciplinaAction() {
 		loadView("/gui/TelaDisciplinas.fxml", (TelaControleDisciplina controle)->{
 			controle.setServicoDisciplina(new ServicoDisciplina());
+			controle.updateTableView();
+			});
+	}
+	
+	@FXML
+	public void onMenuItemCadastroMelhoriaAction() {
+		loadView("/gui/TelaMelhorias.fxml", (TelaControleMelhoria controle)->{
+			controle.setServicoMelhoria(new ServicoMelhoria());
 			controle.updateTableView();
 			});
 	}

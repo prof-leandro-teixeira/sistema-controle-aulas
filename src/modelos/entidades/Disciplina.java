@@ -65,7 +65,5 @@ public class Disciplina implements Serializable {
 	@Override
 	public String toString() {
 		return "Disciplina [id=" + id + ", nome=" + nome + ", area=" + area + "]";
-	}
-
-	
+	}	
 }

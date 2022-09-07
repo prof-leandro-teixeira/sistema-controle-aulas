@@ -21,7 +21,7 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button fx:id="btCadProfessor" mnemonicParsing="false" onAction="#onBtNewAction" text="Cadastro" />
+          <Button fx:id="btCadProfessor" mnemonicParsing="false" onAction="#onBtNewAction" prefHeight="25.0" prefWidth="80.0" text="NOVO" />
         </items>
       </ToolBar>
       <TableView fx:id="tableViewProfessor" prefHeight="200.0" prefWidth="200.0">

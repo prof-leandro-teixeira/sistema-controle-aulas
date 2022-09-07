@@ -4,6 +4,7 @@ import db.DB;
 import modelo.dao.implementacao.AlunoDaoJDBC;
 import modelo.dao.implementacao.AulaDaoJDBC;
 import modelo.dao.implementacao.DisciplinaDaoJDBC;
+import modelo.dao.implementacao.MelhoriaDaoJDBC;
 import modelo.dao.implementacao.ProfessorDaoJDBC;
 
 public class FabricaDao {
@@ -22,6 +23,10 @@ public class FabricaDao {
 	
 	public static ProfessorDao createProfessorDao() {
 		return new ProfessorDaoJDBC(DB.getConnection());
+	}
+	
+	public static MelhoriaDao createMelhoriaDao() {
+		return new MelhoriaDaoJDBC(DB.getConnection());
 	}
 
 	
