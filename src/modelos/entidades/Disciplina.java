@@ -13,7 +13,7 @@ public class Disciplina implements Serializable {
 	
 	public Disciplina() {
 	}
-
+	
 	public Disciplina(Integer id, String nome, String area) {
 		this.id = id;
 		this.nome = nome;
@@ -47,7 +47,7 @@ public class Disciplina implements Serializable {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(area, id, nome);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -59,11 +59,13 @@ public class Disciplina implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Disciplina other = (Disciplina) obj;
-		return Objects.equals(area, other.area) && Objects.equals(id, other.id) && Objects.equals(nome, other.nome);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
 		return "Disciplina [id=" + id + ", nome=" + nome + ", area=" + area + "]";
-	}	
+	}
+
+		
 }

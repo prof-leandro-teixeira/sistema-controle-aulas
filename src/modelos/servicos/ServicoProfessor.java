@@ -18,10 +18,8 @@ public class ServicoProfessor {
 			dao.insert(obj);
 		} else {
 			dao.update(obj);
-		}
-	}
+		}}
 
 	public void deleta(Professor obj) {
 		dao.deleteById(obj.getId());
-	}
-}
+	}}

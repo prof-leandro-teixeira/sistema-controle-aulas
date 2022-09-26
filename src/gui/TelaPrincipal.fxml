@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600" prefWidth="1200" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaControlePrincipal">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600" prefWidth="1200" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaPrincipal">
    <content>
       <VBox>
          <children>
             <MenuBar>
               <menus>
-                  <Menu mnemonicParsing="false" text="MENU PRINCIPAL">
+                  <Menu mnemonicParsing="false" text="CADASTRO">
                      <items>
                         <MenuItem fx:id="menuItemCadastroAluno" mnemonicParsing="false" onAction="#onMenuItemCadastroAlunoAction" text="ALUNO" />
-                        <MenuItem fx:id="menuItemCadastroAula" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
                         <MenuItem fx:id="menuItemCadastroDisciplina" mnemonicParsing="false" onAction="#onMenuItemCadastroDisciplinaAction" text="DISCIPLINA" />
                         <MenuItem fx:id="menuItemCadastroProfessor" mnemonicParsing="false" onAction="#onMenuItemCadastroProfessorAction" text="PROFESSOR" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="RELARÓRIOS">
+                  <Menu mnemonicParsing="false" text="AJUDA">
                     <items>
-                        <MenuItem fx:id="menuItemCadastroAluno1" mnemonicParsing="false" onAction="#onMenuItemCadastroAlunoAction" text="ALUNO" />
-                        <MenuItem fx:id="menuItemCadastroAula1" mnemonicParsing="false" onAction="#onMenuItemAulaAction" text="AULA" />
-                        <MenuItem fx:id="menuItemCadastroDisciplina1" mnemonicParsing="false" onAction="#onMenuItemCadastroDisciplinaAction" text="DISCIPLINA" />
-                        <MenuItem fx:id="menuItemCadastroProfessor1" mnemonicParsing="false" onAction="#onMenuItemCadastroProfessorAction" text="PROFESSOR" />
+                      <MenuItem fx:id="menuItemCadastroMelhoria" mnemonicParsing="false" onAction="#onMenuItemCadastroMelhoriaAction" text="MELHORIAS" />
+                        <MenuItem fx:id="menuItemSobre" mnemonicParsing="false" onAction="#onMenuItemSobreAction" text="SOBRE" />
                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="SUGESTÕES">
-                     <items>
-                        <MenuItem fx:id="menuItemCadastromMelhoria" mnemonicParsing="false" onAction="#onMenuItemCadastroMelhoriaAction" text="PENDÊNCIAS" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="CONTATO">
-                     <items>
-                        <MenuItem fx:id="menuItemContato" mnemonicParsing="false" onAction="#onMenuItemContatoAction" text="Informações" />
-                     </items>
                   </Menu>
               </menus>
             </MenuBar>
+            <TextField alignment="BOTTOM_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="584.0" prefWidth="1198.0" snapToPixel="false" text="Sistema de controle de aulas 1.0.0">
+               <font>
+                  <Font name="Times New Roman Bold Italic" size="24.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </TextField>
          </children>
       </VBox>
    </content>

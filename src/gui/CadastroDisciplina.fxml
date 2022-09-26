@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CadastroDisciplina">
    <children>
-      <GridPane prefHeight="227.0" prefWidth="742.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <GridPane prefHeight="247.0" prefWidth="750.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="54.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="317.0" minWidth="10.0" prefWidth="181.0" />
@@ -27,19 +27,20 @@
          <children>
             <Label text="ID" />
             <Label text="DISCIPLINA" GridPane.rowIndex="1" />
+            <Label text="ÁREA" GridPane.rowIndex="2" />
             <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtNome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="labelErro" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="labelErroNome" onDragDetected="#onBtCancelAction" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="labelErroArea" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="btSalva" mnemonicParsing="false" onAction="#onBtSaveAction" prefHeight="25.0" prefWidth="80.0" text="SALVAR" />
-                  <Button fx:id="btCancela" mnemonicParsing="false" onAction="#onBtCancelAction" prefHeight="25.0" prefWidth="80.0" text="CANCELAR" />
+                  <Button fx:id="btSalvaDisciplina" mnemonicParsing="false" onAction="#onBtSaveAction" prefHeight="25.0" prefWidth="80.0" text="SALVAR" />
+                  <Button fx:id="btCancelaDisciplina" mnemonicParsing="false" onAction="#onBtCancelAction" prefHeight="25.0" prefWidth="80.0" text="CANCELAR" />
                </children>
                <padding>
                   <Insets top="5.0" />
                </padding>
             </HBox>
-            <Label text="ÁREA" GridPane.rowIndex="2" />
             <TextField fx:id="txtArea" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>

@@ -35,17 +35,9 @@ public class Utils {
 			return null;
 		}
 	}
-	//verificar
-	public static Date tryParseToDate(String str) {
-		try {
-			return tryParseToDate("");
-		} catch (NumberFormatException e) {
-			return null;
-		}
-	}
-	
-	public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
-		tableColumn.setCellFactory(column -> {
+
+	public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColunm, String format) {
+		tableColunm.setCellFactory(column -> {
 			TableCell<T, Date> cell = new TableCell<T, Date>() {
 				private SimpleDateFormat sdf = new SimpleDateFormat(format);
 
@@ -86,6 +78,7 @@ public class Utils {
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
 			{
 				datePicker.setPromptText(format.toLowerCase());
+				
 			}
 
 			@Override
@@ -96,7 +89,7 @@ public class Utils {
 					return "";
 				}
 			}
-
+		
 			@Override
 			public LocalDate fromString(String string) {
 				if (string != null && !string.isEmpty()) {
@@ -107,4 +100,6 @@ public class Utils {
 			}
 		});
 	}
+
+	
 }

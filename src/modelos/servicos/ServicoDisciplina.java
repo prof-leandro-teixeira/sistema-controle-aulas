@@ -18,10 +18,8 @@ public class ServicoDisciplina {
 			dao.insert(obj);
 		} else {
 			dao.update(obj);
-		}
-	}
-
+		}}
+	
 	public void deleta(Disciplina obj) {
 		dao.deleteById(obj.getId());
-	}
-}
+	}}

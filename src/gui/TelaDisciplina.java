@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 import modelos.entidades.Disciplina;
 import modelos.servicos.ServicoDisciplina;
 
-public class TelaControleDisciplina implements Initializable, DataChangeListener {
+public class TelaDisciplina implements Initializable, DataChangeListener {
 	@FXML
 	private ServicoDisciplina servico;
 
@@ -44,7 +44,7 @@ public class TelaControleDisciplina implements Initializable, DataChangeListener
 
 	@FXML
 	private TableColumn<Disciplina, String> tableColunmNome;
-
+	
 	@FXML
 	private TableColumn<Disciplina, String> tableColunmArea;
 
@@ -58,7 +58,7 @@ public class TelaControleDisciplina implements Initializable, DataChangeListener
 	private Button btCadDisciplina;
 
 	@FXML
-	private ObservableList<Disciplina> obsList;
+	private ObservableList<Disciplina> obsListDisciplina;
 
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
@@ -80,7 +80,7 @@ public class TelaControleDisciplina implements Initializable, DataChangeListener
 		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
 		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
 		tableColunmArea.setCellValueFactory(new PropertyValueFactory<>("Area"));
-
+		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewDisciplina.prefHeightProperty().bind(stage.heightProperty());
 	}
@@ -90,8 +90,8 @@ public class TelaControleDisciplina implements Initializable, DataChangeListener
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
 		List<Disciplina> list = servico.findAll();
-		obsList = FXCollections.observableArrayList(list);
-		tableViewDisciplina.setItems(obsList);
+		obsListDisciplina = FXCollections.observableArrayList(list);
+		tableViewDisciplina.setItems(obsListDisciplina);
 		BtEditar();
 		BtRemover();
 	}
@@ -117,6 +117,7 @@ public class TelaControleDisciplina implements Initializable, DataChangeListener
 			formStage.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
 		}
 	}

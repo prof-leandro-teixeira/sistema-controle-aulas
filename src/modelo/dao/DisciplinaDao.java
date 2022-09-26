@@ -4,7 +4,6 @@ import java.util.List;
 
 import modelos.entidades.Disciplina;
 
-
 public interface DisciplinaDao {
 
 	void insert(Disciplina obj);

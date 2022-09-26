@@ -1,8 +1,13 @@
 package gui;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -12,70 +17,97 @@ import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 import modelo.exceptions.ValidationException;
+import modelos.entidades.Disciplina;
 import modelos.entidades.Professor;
+import modelos.servicos.ServicoDisciplina;
 import modelos.servicos.ServicoProfessor;
 
+
+
 public class CadastroProfessor implements Initializable {
-	
+
 	private Professor entidade;
-	
 	private ServicoProfessor servico;
-	
+	private ServicoDisciplina servicoDisciplina;
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
-	
+
 	@FXML
 	private TextField txtId;
-	
+
 	@FXML
 	private TextField txtNome;
-	
-	@FXML
-	private TextField txtDisciplina;
-	
+
 	@FXML
 	private TextField txtTelefone;
-	
-	@FXML
-	private TextField txtEndereco;
-	
+
 	@FXML
 	private TextField txtEmail;
-	
+
 	@FXML
-	private Label labelErro;
-	
+	private TextField doubleHoraAula;
+
 	@FXML
-	private Button btSalva;
-	
+	private DatePicker dpDataNascimento;
+
 	@FXML
-	private Button btCancela;
-	
-	public void setProfessor (Professor entidade) {
+	private ComboBox<Disciplina> cbDisciplina;
+
+	@FXML
+	private Label labelErroNome;
+
+	@FXML
+	private Label labelErroTelefone;
+
+	@FXML
+	private Label labelErroEmail;
+
+	@FXML
+	private Label labelErroHoraAula;
+
+	@FXML
+	private Label labelErroDataNascimento;
+
+	@FXML
+	private Button btSalvaProfessor;
+
+	@FXML
+	private Button btCancelaProfessor;
+
+	private ObservableList<Disciplina> obsList;
+
+	public void setProfessor(Professor entidade) {
 		this.entidade = entidade;
 	}
-	
-	public void setServicoProfessor (ServicoProfessor servico) {
+
+	public void setServicos(ServicoProfessor servico, ServicoDisciplina servicoDisciplina) {
 		this.servico = servico;
+		this.servicoDisciplina = servicoDisciplina;
 	}
-	
+
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
-	
+
 	@FXML
 	private void onBtSaveAction(ActionEvent event) {
 		if (entidade == null) {
 			throw new IllegalStateException("Entrada vazia.");
 		}
-		
 		if (servico == null) {
 			throw new IllegalStateException("Serviço vazio.");
 		}
@@ -84,97 +116,139 @@ public class CadastroProfessor implements Initializable {
 			servico.salvaOuAtualiza(entidade);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
-		}
-		catch (ValidationException e) {
+		} catch (ValidationException e) {
 			setErrorMessagens(e.getErrors());
-		}
-		catch (DbException e) {
+		} catch (DbException e) {
 			Alerts.showAlert("Erro ao salvar objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
-	
+
 	private void notifyDataChangeListeners() {
-		for (DataChangeListener listener : dataChangeListeners){
+		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanded();
-		}		
+		}
 	}
 
 	private Professor getForm() {
 		Professor obj = new Professor();
+
 		ValidationException exception = new ValidationException("Erro de Validação");
 		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
-		
-		if (txtNome.getText()== null || txtNome.getText().trim().equals("")){
-			exception.addError("Nome", "Campo NOME não pode ficar vazio");
+
+		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
+			exception.addError("Nome", "Campo não pode ficar vazio");
 		}
 		obj.setNome(txtNome.getText());
-		
-		
-		if (txtDisciplina.getText()== null || txtDisciplina.getText().trim().equals("")){
-			exception.addError("Disciplina", "Campo DISCIPLINA não pode ficar vazio");
+
+		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
+			exception.addError("Telefone", "Campo não pode ficar vazio");
 		}
-		obj.setDisciplina(txtDisciplina.getText());
-		
-		
-		if (txtTelefone.getText()== null || txtTelefone.getText().trim().equals("")){
-			exception.addError("Telefone", "Campo TELEFONE não pode ficar vazio");
-		}
-		obj.setTelefone(Utils.tryParseToInt(txtTelefone.getText()));
-		
-		if (txtEndereco.getText()== null || txtEndereco.getText().trim().equals("")){
-			exception.addError("Endereco", "Campo ENDEREÇO não pode ficar vazio");
-		}
-		obj.setEndereco(txtEndereco.getText());
-		
-		
-		if (txtEmail.getText()== null || txtEmail.getText().trim().equals("")){
-			exception.addError("Email", "Campo EMAIL não pode ficar vazio");
+		obj.setTelefone(txtTelefone.getText());
+
+		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
+			exception.addError("Email", "Campo não pode ficar vazio");
 		}
 		obj.setEmail(txtEmail.getText());
+
+		if (doubleHoraAula.getText() == null || doubleHoraAula.getText().trim().equals("")) {
+			exception.addError("HoraAula", "Campo não pode ficar vazio");
+		}
+		obj.setHoraAula(Utils.tryParseToDouble(doubleHoraAula.getText()));
+		
+		if (dpDataNascimento.getValue() == null ) {
+			exception.addError("DataNascimento", "Campo não pode ficar vazio");
+		}
+		else {
+			Instant instant = Instant.from(dpDataNascimento.getValue().atStartOfDay(ZoneId.systemDefault()));
+			obj.setDataNascimento(Date.from(instant));
+		}
+		obj.setDisciplina(cbDisciplina.getValue());
+		
 		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
 		}
-		
+
 		return obj;
-		}
+	}
 
 	@FXML
 	private void onBtCancelAction(ActionEvent event) {
 		Utils.currentStage(event).close();
 	}
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		initializeNodes();	
+		initializeNodes();
 	}
-	
+
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtNome, 50);
-		Constraints.setTextFieldMaxLength(txtDisciplina, 50);
-		Constraints.setTextFieldMaxLength(txtTelefone, 50);
-		Constraints.setTextFieldMaxLength(txtEndereco, 50);
+		Constraints.setTextFieldInteger(txtTelefone);
 		Constraints.setTextFieldMaxLength(txtEmail, 50);
+		Constraints.setTextFieldDouble(doubleHoraAula);
+		Utils.formatDatePicker(dpDataNascimento, "dd/MM/yyyy");
+		
+		carregaComboboxDisciplina();
+
 	}
+
 	public void updateForm() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade vazia");
 		}
 		txtId.setText(String.valueOf(entidade.getId()));
 		txtNome.setText(entidade.getNome());
-		txtDisciplina.setText(entidade.getDisciplina());
 		txtTelefone.setText(String.valueOf(entidade.getTelefone()));
-		txtEndereco.setText(entidade.getEndereco());
 		txtEmail.setText(entidade.getEmail());
+		Locale.setDefault(Locale.US);
+		doubleHoraAula.setText(String.format("%.2f", entidade.getHoraAula()));
+		
+		
+		if (entidade.getDataNascimento() != null) {
+			dpDataNascimento.setValue(LocalDate.ofInstant(entidade.getDataNascimento().toInstant(), ZoneId.systemDefault()));
+		}
+		if (entidade.getDisciplina() == null) {
+			cbDisciplina.getSelectionModel().selectFirst();
+		}
+		else {
+			cbDisciplina.setValue(entidade.getDisciplina());
+		}
+	}
+
+	public void carregaObjetosAssociados() {
+		if (servicoDisciplina == null) {
+			throw new IllegalStateException("Serviço Disciplina não pode ser nulo");
+		}
+		List<Disciplina> list = servicoDisciplina.findAll();
+		obsList = FXCollections.observableArrayList(list);
+		cbDisciplina.setItems(obsList);
 	}
 	
 	private void setErrorMessagens(Map<String, String> errors) {
 		Set<String> campos = errors.keySet();
+
+		labelErroNome.setText(((campos.contains("Nome") ? errors.get("Nome") : "")));
+		labelErroTelefone.setText(((campos.contains("Telefone") ? errors.get("Telefone") : "")));
+		labelErroEmail.setText(((campos.contains("Email") ? errors.get("Email") : "")));
+		labelErroHoraAula.setText(((campos.contains("HoraAula") ? errors.get("HoraAula") : "")));
+		labelErroDataNascimento.setText(((campos.contains("DataNascimento") ? errors.get("DataNascimento") : "")));
 		
-		if (campos.contains("Nome")) {
-			labelErro.setText(errors.get("Nome"));
-		}
 	}
+
+	private void carregaComboboxDisciplina() {
+		Callback<ListView<Disciplina>, ListCell<Disciplina>> factory = lv -> new ListCell<Disciplina>() {
+			@Override
+			protected void updateItem(Disciplina item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.getNome());
+			}
+		};
+		cbDisciplina.setCellFactory(factory);
+		cbDisciplina.setButtonCell(factory.call(null));
+	}
+
+	
 }

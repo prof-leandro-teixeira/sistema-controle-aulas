@@ -27,7 +27,7 @@ public class MelhoriaDaoJDBC implements MelhoriaDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM disciplina WHERE Id = ?");
+				"SELECT * FROM melhoria WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
@@ -118,7 +118,7 @@ public class MelhoriaDaoJDBC implements MelhoriaDao {
 		try {
 			st = conn.prepareStatement(
 					"UPDATE melhoria " 
-					+ "SET Tipo = ?, Descricao = ? "
+					+ "SET Tipo = ?, Descricao = ?"
 					+ "WHERE Id = ?");
 
 			st.setString(1, obj.getTipo());

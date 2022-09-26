@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,59 +31,62 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelos.entidades.Professor;
+import modelos.servicos.ServicoDisciplina;
 import modelos.servicos.ServicoProfessor;
 
-public class TelaControleProfessor implements Initializable, DataChangeListener{
+public class TelaProfessor implements Initializable, DataChangeListener {
 	@FXML
 	private ServicoProfessor servico;
 
 	@FXML
-	private TableView<Professor> tableViewProfessor;	
-	
+	private TableView<Professor> tableViewProfessor;
+
 	@FXML
 	private TableColumn<Professor, Integer> tableColunmId;
-	
+
 	@FXML
 	private TableColumn<Professor, String> tableColunmNome;
 	
 	@FXML
-	private TableColumn<Professor, String> tableColunmDisciplina;
-	
-	@FXML
-	private TableColumn<Professor, Integer> tableColunmTelefone;
-	
-	@FXML
-	private TableColumn<Professor, String> tableColunmEndereco;
-	
-	@FXML
-	private TableColumn<Professor, String> tableColunmEmail;
-	
-	@FXML
-	private TableColumn<Professor, Professor> tableColunmEdita;
+	private TableColumn<Professor, Integer> tableColunmDisciplina;
 
 	@FXML
-	private TableColumn<Professor, Professor> tableColunmRemove;
-	
+	private TableColumn<Professor, Integer> tableColunmTelefone;
+
+	@FXML
+	private TableColumn<Professor, String> tableColunmEmail;
+
+	@FXML
+	private TableColumn<Professor, Double> tableColunmHoraAula;
+
+	@FXML
+	private TableColumn<Professor, Date> tableColunmDataNascimento;
+
+	@FXML
+	private TableColumn<Professor, Professor> tableColumnEdita;
+
+	@FXML
+	private TableColumn<Professor, Professor> tableColumnRemove;
+
 	@FXML
 	private Button btCadProfessor;
-	
-	@FXML
+
 	private ObservableList<Professor> obsList;
-	
+
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Professor obj = new Professor();
 		criaCadastroProfessor(obj, "/gui/CadastroProfessor.fxml", parentStage);
 	}
-	
+
 	public void setServicoProfessor(ServicoProfessor servico) {
 		this.servico = servico;
 	}
-		
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		initializeNodes();			
+		initializeNodes();
 	}
 
 	private void initializeNodes() {
@@ -90,11 +94,14 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
 		tableColunmDisciplina.setCellValueFactory(new PropertyValueFactory<>("Disciplina"));
 		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("Telefone"));
-		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("Endereco"));
 		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
+		tableColunmHoraAula.setCellValueFactory(new PropertyValueFactory<>("HoraAula"));
+		Utils.formatTableColumnDouble(tableColunmHoraAula,2);
+		tableColunmDataNascimento.setCellValueFactory(new PropertyValueFactory<>("DataNascimento"));
+		Utils.formatTableColumnDate(tableColunmDataNascimento, "dd/MM/yyyy");
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewProfessor.prefHeightProperty().bind(stage.heightProperty());	
+		tableViewProfessor.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void updateTableView() {
@@ -108,18 +115,19 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 		BtRemover();
 	}
 
-	private void criaCadastroProfessor(Professor obj, String absoluteName,Stage parentStage) {
-		
+	private void criaCadastroProfessor(Professor obj, String absoluteName, Stage parentStage) {
+
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
-			
+
 			CadastroProfessor controle = loader.getController();
 			controle.setProfessor(obj);
-			controle.setServicoProfessor(new ServicoProfessor());
+			controle.setServicos(new ServicoProfessor(), new ServicoDisciplina());
+			controle.carregaObjetosAssociados();
 			controle.subscribeDataChangeListener(this);
 			controle.updateForm();
-			
+
 			Stage formStage = new Stage();
 			formStage.setTitle("Entre com os dados do professor.");
 			formStage.setScene(new Scene(pane));
@@ -127,9 +135,7 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 			formStage.initOwner(parentStage);
 			formStage.initModality(Modality.WINDOW_MODAL);
 			formStage.showAndWait();
-	
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
 		}
 	}
@@ -140,8 +146,9 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 	}
 
 	private void BtEditar() {
-		tableColunmEdita.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColunmEdita.setCellFactory(param -> new TableCell<Professor, Professor>() {
+		tableColumnEdita.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnEdita.setCellFactory(param -> new TableCell<Professor, Professor>() {
+
 			private final Button button = new Button("Editar");
 
 			@Override
@@ -159,8 +166,9 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 	}
 
 	private void BtRemover() {
-		tableColunmRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColunmRemove.setCellFactory(param -> new TableCell<Professor, Professor>() {
+		tableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnRemove.setCellFactory(param -> new TableCell<Professor, Professor>() {
+
 			private final Button button = new Button("Remover");
 
 			@Override
@@ -191,6 +199,5 @@ public class TelaControleProfessor implements Initializable, DataChangeListener{
 
 			}
 		}
-
 	}
 }

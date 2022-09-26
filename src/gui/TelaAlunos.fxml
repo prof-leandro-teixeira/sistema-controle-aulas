@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="329.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaControleAluno">
+<VBox prefHeight="431.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaAluno">
    <children>
       <Label text="Cadastro de Alunos">
          <padding>
@@ -21,19 +21,21 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button fx:id="btCadAluno" mnemonicParsing="false" onAction="#onBtNewAction" prefHeight="25.0" prefWidth="70.0" text="NOVO" />
+          <Button fx:id="btCadAluno" mnemonicParsing="false" onAction="#onBtNewAction" prefHeight="25.0" prefWidth="80.0" text="NOVO" />
         </items>
       </ToolBar>
       <TableView fx:id="tableViewAluno" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="tableColunmId" prefWidth="30.0" text="ID" />
-          <TableColumn fx:id="tableColunmNome" prefWidth="163.0" text="NOME" />
-            <TableColumn fx:id="tableColunmResponsavel" prefWidth="155.0" text="RESPONSÁVEL" />
-            <TableColumn fx:id="tableColunmTelefone" prefWidth="129.0" text="TELEFONE" />
-            <TableColumn fx:id="tableColunmEmail" prefWidth="168.0" text="E-MAIL" />
-            <TableColumn fx:id="tableColunmEndereco" prefWidth="202.0" text="ENDEREÇO" />
-            <TableColumn fx:id="tableColunmEdita" prefWidth="70.0" />
-            <TableColumn fx:id="tableColunmRemove" prefWidth="70.0" />
+          <TableColumn fx:id="tableColunmNome" prefWidth="202.0" text="NOME" />
+            <TableColumn fx:id="tableColunmAno" prefWidth="40.0" text="ANO" />
+            <TableColumn fx:id="tableColunmTelefone" prefWidth="88.0" text="TELEFONE" />
+            <TableColumn fx:id="tableColunmResponsavel" prefWidth="194.0" text="RESPONSÁVEL" />
+            <TableColumn fx:id="tableColunmEmail" prefWidth="187.0" text="EMAIL" />
+            <TableColumn fx:id="tableColunmEndereco" prefWidth="158.0" text="ENDEREÇO" />
+            <TableColumn fx:id="tableColunmEscola" prefWidth="124.0" text="ESCOLA" />
+            <TableColumn fx:id="tableColumnEdita" prefWidth="96.0" />
+            <TableColumn fx:id="tableColumnRemove" prefWidth="94.0" />
         </columns>
       </TableView>
    </children>

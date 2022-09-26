@@ -2,34 +2,37 @@ package modelos.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-public class Professor implements Serializable {
+//implements Serializable torna o acesso aos dados do banco de dados acessíveis para leitura
+public class Modelo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+//declaração das variáveis	
 	private Integer id;
 	private String nome;
 	private String telefone;
 	private String email;
-	private Double horaAula;
+	private Double salario;
 	private Date dataNascimento;
-		
-	private Disciplina disciplina;
-		
-	public Professor() {
+	
+//construtor vazio
+	public Modelo() {
 	}
 
-	public Professor(Integer id, String nome, String telefone,String email, Double horaAula, Date dataNascimento,
-			Disciplina disciplina) {
+//construtor com campos	
+	public Modelo(Integer id, String nome, String telefone, String email, Double salario, Date dataNascimento) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
-		this.horaAula = horaAula;
+		this.salario = salario;
 		this.dataNascimento = dataNascimento;
-		this.disciplina = disciplina;
 	}
 
+//getters and setters
 	public Integer getId() {
 		return id;
 	}
@@ -62,12 +65,12 @@ public class Professor implements Serializable {
 		this.email = email;
 	}
 
-	public Double getHoraAula() {
-		return horaAula;
+	public Double getSalario() {
+		return salario;
 	}
 
-	public void setHoraAula(Double horaAula) {
-		this.horaAula = horaAula;
+	public void setSalario(Double salario) {
+		this.salario = salario;
 	}
 
 	public Date getDataNascimento() {
@@ -78,22 +81,14 @@ public class Professor implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Disciplina getDisciplina() {
-		return disciplina;
-	}
-
-	public void setDisciplina(Disciplina disciplina) {
-		this.disciplina = disciplina;
-	}
-
+	
+//hashcode
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(id);
 	}
 
+//equals
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -102,18 +97,13 @@ public class Professor implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Professor other = (Professor) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		Modelo other = (Modelo) obj;
+		return Objects.equals(id, other.id);
 	}
-
+//tostring
 	@Override
 	public String toString() {
-		return "Professor [id=" + id + ", nome=" + nome + ", telefone=" + telefone + ", email=" + email + ", horaAula="
-				+ horaAula + ", dataNascimento=" + dataNascimento + ", disciplina=" + disciplina + "]";
-	}	
+		return "Modelo [id=" + id + ", nome=" + nome + ", telefone=" + telefone + ", email=" + email + ", salario="
+				+ salario + ", dataNascimento=" + dataNascimento + "]";
+	}
 }

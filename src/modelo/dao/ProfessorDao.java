@@ -2,6 +2,7 @@ package modelo.dao;
 
 import java.util.List;
 
+import modelos.entidades.Disciplina;
 import modelos.entidades.Professor;
 
 public interface ProfessorDao {
@@ -11,4 +12,5 @@ public interface ProfessorDao {
 	void deleteById(Integer id);
 	Professor findById(Integer id);
 	List<Professor> findAll();
+	List<Professor> findByDisciplina(Disciplina disciplina);
 }

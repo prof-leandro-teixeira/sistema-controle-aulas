@@ -41,13 +41,16 @@ public class CadastroDisciplina implements Initializable {
 	private TextField txtArea;
 	
 	@FXML
-	private Label labelErro;
+	private Label labelErroNome;
 	
 	@FXML
-	private Button btSalva;
+	private Label labelErroArea;
 	
 	@FXML
-	private Button btCancela;
+	private Button btSalvaDisciplina;
+	
+	@FXML
+	private Button btCancelaDisciplina;
 	
 	public void setDisciplina (Disciplina entidade) {
 		this.entidade = entidade;
@@ -83,12 +86,11 @@ public class CadastroDisciplina implements Initializable {
 			Alerts.showAlert("Erro ao salvar objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
-
+	
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners){
 			listener.onDataChanded();
-		}
-		
+		}		
 	}
 
 	private Disciplina getForm() {
@@ -100,12 +102,12 @@ public class CadastroDisciplina implements Initializable {
 		if (txtNome.getText()== null || txtNome.getText().trim().equals("")){
 			exception.addError("Nome", "Campo não pode ficar vazio");
 		}
-		obj.setNome(txtNome.getText());
+		obj.setNome(txtNome.getText().toUpperCase());
 		
 		if (txtArea.getText()== null || txtArea.getText().trim().equals("")){
 			exception.addError("Area", "Campo não pode ficar vazio");
 		}
-		obj.setArea(txtArea.getText());
+		obj.setArea(txtArea.getText().toUpperCase());
 		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
@@ -121,15 +123,14 @@ public class CadastroDisciplina implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		initializeNodes();	
+		initializeNodes();
 	}
 	
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtNome, 30);
-		Constraints.setTextFieldMaxLength(txtArea, 30);
+		Constraints.setTextFieldMaxLength(txtNome, 50);
+		Constraints.setTextFieldMaxLength(txtArea, 50);
 	}
-
 	public void updateForm() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade vazia");
@@ -143,7 +144,10 @@ public class CadastroDisciplina implements Initializable {
 		Set<String> campos = errors.keySet();
 		
 		if (campos.contains("Nome")) {
-			labelErro.setText(errors.get("Nome"));
+			labelErroNome.setText(errors.get("Nome"));
+		}
+		if (campos.contains("Area")) {
+			labelErroArea.setText(errors.get("Area"));
 		}
 	}
 }

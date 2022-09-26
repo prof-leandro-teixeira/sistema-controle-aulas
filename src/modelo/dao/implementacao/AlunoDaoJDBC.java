@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import db.DB;
 import db.DbException;
 import modelo.dao.AlunoDao;
@@ -25,19 +26,22 @@ public class AlunoDaoJDBC implements AlunoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM aluno WHERE Id = ?");
+					"SELECT * FROM aluno WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				Aluno obj = new Aluno();
 				obj.setId(rs.getInt("Id"));
 				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsavel"));
-				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereco"));
+				obj.setAno(rs.getString("Ano"));
+				obj.setTelefone(rs.getString("Telefone"));
 				obj.setEmail(rs.getString("Email"));
+				obj.setResponsavel(rs.getString("Responsavel"));
+				obj.setEndereco(rs.getString("Endereco"));
+				obj.setEscola(rs.getString("Escola"));
+				
 				return obj;
-			}
+				}
 			return null;
 		}
 		catch (SQLException e) {
@@ -64,12 +68,15 @@ public class AlunoDaoJDBC implements AlunoDao {
 				Aluno obj = new Aluno();
 				obj.setId(rs.getInt("Id"));
 				obj.setNome(rs.getString("Nome"));
-				obj.setResponsavel(rs.getString("Responsavel"));
-				obj.setTelefone(rs.getInt("Telefone"));
-				obj.setEndereco(rs.getString("Endereco"));
+				obj.setAno(rs.getString("Ano"));
+				obj.setTelefone(rs.getString("Telefone"));
 				obj.setEmail(rs.getString("Email"));
+				obj.setResponsavel(rs.getString("Responsavel"));
+				obj.setEndereco(rs.getString("Endereco"));
+				obj.setEscola(rs.getString("Escola"));
+				
 				list.add(obj);
-				}
+			}
 			return list;
 		}
 		catch (SQLException e) {
@@ -87,17 +94,19 @@ public class AlunoDaoJDBC implements AlunoDao {
 		try {
 			st = conn.prepareStatement(
 				"INSERT INTO aluno" +
-				"(`Nome`, `Responsavel`, `Telefone`, `Endereco`, `Email`)" +
+				"(`Nome`, `Ano`, `Telefone`, `Email`, `Responsavel`,`Endereco`, `Escola`) " +
 				"VALUES " +
-				"(?,?,?,?,?)", 
+				"(?,?,?,?,?,?,?)",
 				Statement.RETURN_GENERATED_KEYS);
-			
+							
 			st.setString(1, obj.getNome());
-			st.setString(2, obj.getResponsavel());
-			st.setInt(3, obj.getTelefone());
-			st.setString(4, obj.getEndereco());
-			st.setString(5, obj.getEmail());
-						
+			st.setString(2, obj.getAno());
+			st.setString(3, obj.getTelefone());
+			st.setString(4, obj.getEmail());
+			st.setString(5, obj.getResponsavel());
+			st.setString(6, obj.getEndereco());
+			st.setString(7, obj.getEscola());
+									
 			int rowsAffected = st.executeUpdate();
 			
 			if (rowsAffected > 0) {
@@ -108,12 +117,12 @@ public class AlunoDaoJDBC implements AlunoDao {
 				}
 			}
 			else {
-				throw new DbException("Unexpected error! Nenhuma linha alterada!");
+				throw new DbException("Unexpected error! No rows affected!");
 			}
 		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}
+		} 
 		finally {
 			DB.closeStatement(st);
 		}
@@ -124,17 +133,19 @@ public class AlunoDaoJDBC implements AlunoDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"UPDATE aluno " 
-					+ "SET Nome = ?, Responsavel = ?, Telefone = ?, Endereco = ?, Email = ? "
+					"UPDATE aluno "
+					+ " SET Nome = ?, Ano = ?, Telefone = ?, Email = ?, Responsavel = ?, Endereco = ?, Escola = ?"
 					+ "WHERE Id = ?");
-			
-			st.setString(1, obj.getNome());
-			st.setString(2, obj.getResponsavel());
-			st.setInt(3, obj.getTelefone());
-			st.setString(4, obj.getEndereco());
-			st.setString(5, obj.getEmail());
-			st.setInt(6, obj.getId());
 					
+			st.setString(1, obj.getNome());
+			st.setString(2, obj.getAno());
+			st.setString(3, obj.getTelefone());
+			st.setString(4, obj.getEmail());
+			st.setString(5, obj.getResponsavel());
+			st.setString(6, obj.getEndereco());
+			st.setString(7, obj.getEscola());
+			st.setInt(8,obj.getId());
+			
 			st.executeUpdate();
 		}
 		catch (SQLException e) {
@@ -144,7 +155,7 @@ public class AlunoDaoJDBC implements AlunoDao {
 			DB.closeStatement(st);
 		}
 	}
-
+	
 	@Override
 	public void deleteById(Integer id) {
 		PreparedStatement st = null;

@@ -29,46 +29,61 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import modelos.entidades.Melhoria;
-import modelos.servicos.ServicoMelhoria;
+import modelos.entidades.Aluno;
+import modelos.servicos.ServicoAluno;
 
-public class TelaControleMelhoria implements Initializable, DataChangeListener {
+public class TelaAluno implements Initializable, DataChangeListener {
 	@FXML
-	private ServicoMelhoria servico;
-
-	@FXML
-	private TableView<Melhoria> tableViewMelhoria;
+	private ServicoAluno servicoAluno;
 
 	@FXML
-	private TableColumn<Melhoria, Integer> tableColunmId;
+	private TableView<Aluno> tableViewAluno;
 
 	@FXML
-	private TableColumn<Melhoria, String> tableColunmTipo;
+	private TableColumn<Aluno, Integer> tableColunmId;
 
 	@FXML
-	private TableColumn<Melhoria, String> tableColunmDescricao;
+	private TableColumn<Aluno, String> tableColunmNome;
 
 	@FXML
-	private TableColumn<Melhoria, Melhoria> tableColumnEdita;
+	private TableColumn<Aluno, String> tableColunmAno;
 
 	@FXML
-	private TableColumn<Melhoria, Melhoria> tableColumnRemove;
+	private TableColumn<Aluno, String> tableColunmTelefone;
 
 	@FXML
-	private Button btCadMelhoria;	
+	private TableColumn<Aluno, String> tableColunmEmail;
 
 	@FXML
-	private ObservableList<Melhoria> obsList;
+	private TableColumn<Aluno, String> tableColunmResponsavel;
+
+	@FXML
+	private TableColumn<Aluno, String> tableColunmEndereco;
+
+	@FXML
+	private TableColumn<Aluno, String> tableColunmEscola;
+
+
+	@FXML
+	private TableColumn<Aluno, Aluno> tableColumnEdita;
+
+	@FXML
+	private TableColumn<Aluno, Aluno> tableColumnRemove;
+
+	@FXML
+	private Button btCadAluno;
+
+	private ObservableList<Aluno> obsList;
 
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		Melhoria obj = new Melhoria();
-		criaCadastroMelhoria(obj, "/gui/CadastroMelhoria.fxml", parentStage);
+		Aluno obj = new Aluno();
+		criaCadastroAluno(obj, "/gui/CadastroAluno.fxml", parentStage);
 	}
 
-	public void setServicoMelhoria(ServicoMelhoria servico) {
-		this.servico = servico;
+	public void setServicoAluno(ServicoAluno servico) {
+		this.servicoAluno = servico;
 	}
 
 	@Override
@@ -78,44 +93,48 @@ public class TelaControleMelhoria implements Initializable, DataChangeListener {
 
 	private void initializeNodes() {
 		tableColunmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-		tableColunmTipo.setCellValueFactory(new PropertyValueFactory<>("Tipo"));
-		tableColunmDescricao.setCellValueFactory(new PropertyValueFactory<>("Descricao"));
+		tableColunmNome.setCellValueFactory(new PropertyValueFactory<>("Nome"));
+		tableColunmAno.setCellValueFactory(new PropertyValueFactory<>("Ano"));
+		tableColunmTelefone.setCellValueFactory(new PropertyValueFactory<>("Telefone"));
+		tableColunmEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
+		tableColunmResponsavel.setCellValueFactory(new PropertyValueFactory<>("Responsavel"));
+		tableColunmEndereco.setCellValueFactory(new PropertyValueFactory<>("Endereco"));
+		tableColunmEscola.setCellValueFactory(new PropertyValueFactory<>("Escola"));
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewMelhoria.prefHeightProperty().bind(stage.heightProperty());
+		tableViewAluno.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void updateTableView() {
-		if (servico == null) {
+		if (servicoAluno == null) {
 			throw new IllegalThreadStateException("Serviço em branco");
 		}
-		List<Melhoria> list = servico.findAll();
+		List<Aluno> list = servicoAluno.findAll();
 		obsList = FXCollections.observableArrayList(list);
-		tableViewMelhoria.setItems(obsList);
+		tableViewAluno.setItems(obsList);
 		BtEditar();
 		BtRemover();
 	}
 
-	private void criaCadastroMelhoria(Melhoria obj, String absoluteName, Stage parentStage) {
+	private void criaCadastroAluno(Aluno obj, String absoluteName, Stage parentStage) {
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 
-			CadastroMelhoria controle = loader.getController();
-			controle.setMelhoria(obj);
-			controle.setServicoMelhoria(new ServicoMelhoria());
+			CadastroAluno controle = loader.getController();
+			controle.setAluno(obj);
+			controle.setServicoAluno(new ServicoAluno());
 			controle.subscribeDataChangeListener(this);
 			controle.updateForm();
 
 			Stage formStage = new Stage();
-			formStage.setTitle("Entre com a sugestão desejada.");
+			formStage.setTitle("Entre com os dados do aluno.");
 			formStage.setScene(new Scene(pane));
 			formStage.setResizable(false);
 			formStage.initOwner(parentStage);
 			formStage.initModality(Modality.WINDOW_MODAL);
 			formStage.showAndWait();
-
 		} catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro no carregamento", e.getMessage(), AlertType.ERROR);
 		}
@@ -128,30 +147,32 @@ public class TelaControleMelhoria implements Initializable, DataChangeListener {
 
 	private void BtEditar() {
 		tableColumnEdita.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnEdita.setCellFactory(param -> new TableCell<Melhoria, Melhoria>() {
+		tableColumnEdita.setCellFactory(param -> new TableCell<Aluno, Aluno>() {
+
 			private final Button button = new Button("Editar");
 
 			@Override
-			protected void updateItem(Melhoria obj, boolean empty) {
+			protected void updateItem(Aluno obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
 					return;
 				}
 				setGraphic(button);
-				button.setOnAction(event -> criaCadastroMelhoria(obj, "/gui/CadastroMelhoria.fxml",
-						Utils.currentStage(event)));
+				button.setOnAction(
+						event -> criaCadastroAluno(obj, "/gui/CadastroAluno.fxml", Utils.currentStage(event)));
 			}
 		});
 	}
 
 	private void BtRemover() {
 		tableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnRemove.setCellFactory(param -> new TableCell<Melhoria, Melhoria>() {
-			private final Button button = new Button("Remove");
+		tableColumnRemove.setCellFactory(param -> new TableCell<Aluno, Aluno>() {
+
+			private final Button button = new Button("Remover");
 
 			@Override
-			protected void updateItem(Melhoria obj, boolean empty) {
+			protected void updateItem(Aluno obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -163,21 +184,19 @@ public class TelaControleMelhoria implements Initializable, DataChangeListener {
 		});
 	}
 
-	private void removeEntity(Melhoria obj) {
+	private void removeEntity(Aluno obj) {
 		Optional<ButtonType> resultado = Alerts.showConfirmation("AÇÃO NÃO PODE SER DESFEITA!",
 				"Você está certo desta ação?");
 		if (resultado.get() == ButtonType.OK) {
-			if (servico == null) {
+			if (servicoAluno == null) {
 				throw new IllegalStateException("Serviço não pode ficar vazio.");
 			}
 			try {
-				servico.deleta(obj);
+				servicoAluno.deleta(obj);
 				updateTableView();
 			} catch (DbIntegrityException e) {
 				Alerts.showAlert("Erro ao remover objeto", null, e.getMessage(), AlertType.ERROR);
-
 			}
 		}
-
 	}
 }

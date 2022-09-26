@@ -17,99 +17,90 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import modelos.servicos.ServicoAluno;
-import modelos.servicos.ServicoAula;
 import modelos.servicos.ServicoDisciplina;
 import modelos.servicos.ServicoMelhoria;
 import modelos.servicos.ServicoProfessor;
 
-public class TelaControlePrincipal implements Initializable{
+public class TelaPrincipal implements Initializable {
 
 	@FXML
 	private MenuItem menuItemCadastroAula;
-		
-	@FXML
-	private MenuItem menuItemCadastroDisciplina;
-	
-	@FXML
-	private MenuItem menuItemCadastroProfessor;
-	
+
 	@FXML
 	private MenuItem menuItemCadastroAluno;
-	
+
+	@FXML
+	private MenuItem menuItemCadastroDisciplina;
+
+	@FXML
+	private MenuItem menuItemCadastroProfessor;
+
 	@FXML
 	private MenuItem menuItemCadastroMelhoria;
-	
+
 	@FXML
-	private MenuItem menuItemContato;
-	
+	private MenuItem menuItemSobre;
+
 	@FXML
 	public void onMenuItemCadastroAlunoAction() {
-		loadView("/gui/TelaAlunos.fxml", (TelaControleAluno controle)->{
+		loadView("/gui/TelaAlunos.fxml", (TelaAluno controle) -> {
 			controle.setServicoAluno(new ServicoAluno());
 			controle.updateTableView();
-			});
+		});
 	}
-	
-	@FXML
-	public void onMenuItemAulaAction() {
-		loadView("/gui/TelaAulas.fxml", (TelaControleAula controle)->{
-			controle.setServicoAula(new ServicoAula());
-			controle.updateTableView();
-			});
-	}	
-		
+
 	@FXML
 	public void onMenuItemCadastroDisciplinaAction() {
-		loadView("/gui/TelaDisciplinas.fxml", (TelaControleDisciplina controle)->{
+		loadView("/gui/TelaDisciplinas.fxml", (TelaDisciplina controle) -> {
 			controle.setServicoDisciplina(new ServicoDisciplina());
 			controle.updateTableView();
-			});
+		});
+	}
+
+	@FXML
+	public void onMenuItemCadastroProfessorAction() {
+		loadView("/gui/TelaProfessores.fxml", (TelaProfessor controle) -> {
+			controle.setServicoProfessor(new ServicoProfessor());
+			controle.updateTableView();
+		});
 	}
 	
 	@FXML
 	public void onMenuItemCadastroMelhoriaAction() {
-		loadView("/gui/TelaMelhorias.fxml", (TelaControleMelhoria controle)->{
+		loadView("/gui/TelaMelhorias.fxml", (TelaMelhoria controle) -> {
 			controle.setServicoMelhoria(new ServicoMelhoria());
 			controle.updateTableView();
-			});
-	}
-		
-	@FXML
-	public void onMenuItemCadastroProfessorAction() {
-		loadView("/gui/TelaProfessores.fxml", (TelaControleProfessor controle)->{
-			controle.setServicoProfessor(new ServicoProfessor());
-			controle.updateTableView();
-			});
+		});
 	}
 	
 	@FXML
-	public void onMenuItemContatoAction() {
-		loadView("/gui/TelaContato.fxml", x -> {});
+	public void onMenuItemSobreAction() {
+		loadView("/gui/TelaSobre.fxml",x->{});
 	}
-	
+
+
 	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
-		try {	
+		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();
-			
+
 			Scene mainScene = Main.getMainScene();
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-			
+
 			Node mainMenu = mainVBox.getChildren().get(0);
 			mainVBox.getChildren().clear();
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
-			
+
 			T controle = loader.getController();
 			initializingAction.accept(controle);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Alerts.showAlert("IO Exception", "Erro no carregamento da página", e.getMessage(), AlertType.ERROR);
 		}
-			catch (IOException e) {
-				Alerts.showAlert("IO Exception", "Erro no carregamento da página", e.getMessage(), AlertType.ERROR);
-			}
 	}
-	
-	
+
 	@Override
 	public void initialize(URL uri, ResourceBundle rb) {
-		}
+	}
 }

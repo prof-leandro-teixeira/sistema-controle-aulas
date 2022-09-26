@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="306.0" prefWidth="578.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaControleDisciplina">
+<VBox prefHeight="337.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaDisciplina">
    <children>
       <Label text="Cadastro de Disciplina">
          <padding>
@@ -24,13 +24,13 @@
           <Button fx:id="btCadDisciplina" mnemonicParsing="false" onAction="#onBtNewAction" prefHeight="25.0" prefWidth="80.0" text="NOVO" />
         </items>
       </ToolBar>
-      <TableView fx:id="tableViewDisciplina" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableViewDisciplina" prefHeight="200.0" prefWidth="918.0">
         <columns>
-          <TableColumn fx:id="tableColunmId" prefWidth="31.0" text="ID" />
-          <TableColumn fx:id="tableColunmNome" prefWidth="172.0" text="NOME" />
-            <TableColumn fx:id="tableColunmArea" prefWidth="160.0" text="ÁREA" />
-            <TableColumn fx:id="tableColumnEdita" prefWidth="70.0" />
-            <TableColumn fx:id="tableColumnRemove" prefWidth="70.0" />
+          <TableColumn fx:id="tableColunmId" prefWidth="40.0" text="ID" />
+          <TableColumn fx:id="tableColunmNome" prefWidth="200.0" text="NOME" />
+            <TableColumn fx:id="tableColunmArea" prefWidth="200.0" text="ÁREA" />
+            <TableColumn fx:id="tableColumnEdita" />
+            <TableColumn fx:id="tableColumnRemove" />
         </columns>
       </TableView>
    </children>

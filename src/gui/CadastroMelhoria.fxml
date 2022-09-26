@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="gui.CadastroMelhoria">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CadastroMelhoria">
    <children>
       <GridPane layoutX="1.0" prefHeight="227.0" prefWidth="775.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
@@ -29,16 +28,15 @@
             <Label text="ID" />
             <Label text="TIPO" GridPane.rowIndex="1" />
             <Label text="DESCRIÇÃO" GridPane.rowIndex="2" />
-            <Label GridPane.columnIndex="2" />
-            <Label GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label fx:id="labelErro" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="labelErroTipo" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="labelErroDescricao" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <TextField fx:id="txtId" GridPane.columnIndex="1" />
             <TextField fx:id="txtTipo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtDescricao" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="btSalva" mnemonicParsing="false" onAction="#onBtSaveAction" prefHeight="25.0" prefWidth="80.0" text="SALVAR" />
-                  <Button fx:id="btCancela" mnemonicParsing="false" onAction="#onBtCancelAction" prefHeight="25.0" prefWidth="80.0" text="CANCELAR">
+                  <Button fx:id="btCancelaMelhoria" mnemonicParsing="false" onAction="#onBtSaveAction" prefHeight="25.0" prefWidth="80.0" text="SALVAR" />
+                  <Button fx:id="btCancelaMelhoria" mnemonicParsing="false" onAction="#onBtCancelAction" prefHeight="25.0" prefWidth="80.0" text="CANCELAR">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

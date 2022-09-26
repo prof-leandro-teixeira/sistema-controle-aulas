@@ -101,7 +101,7 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 				}
 			}
 			else {
-				throw new DbException("Unexpected error! No rows affected!");
+				throw new DbException("Unexpected error! Nenhuma linha alterada!");
 			}
 		}
 		catch (SQLException e) {
@@ -118,7 +118,7 @@ public class DisciplinaDaoJDBC implements DisciplinaDao {
 		try {
 			st = conn.prepareStatement(
 					"UPDATE disciplina " 
-					+ "SET Nome = ?, Area = ? "
+					+ "SET Nome = ?, Area = ?"
 					+ "WHERE Id = ?");
 
 			st.setString(1, obj.getNome());

@@ -41,13 +41,16 @@ public class CadastroMelhoria implements Initializable {
 	private TextField txtDescricao;
 	
 	@FXML
-	private Label labelErro;
+	private Label labelErroTipo;
 	
 	@FXML
-	private Button btSalva;
+	private Label labelErroDescricao;
 	
 	@FXML
-	private Button btCancela;
+	private Button btSalvaMelhoria;
+	
+	@FXML
+	private Button btCancelaMelhoria;
 	
 	public void setMelhoria (Melhoria entidade) {
 		this.entidade = entidade;
@@ -100,12 +103,12 @@ public class CadastroMelhoria implements Initializable {
 		if (txtTipo.getText()== null || txtTipo.getText().trim().equals("")){
 			exception.addError("Tipo", "Campo não pode ficar vazio");
 		}
-		obj.setTipo(txtTipo.getText());
+		obj.setTipo(txtTipo.getText().toUpperCase());
 		
 		if (txtDescricao.getText()== null || txtDescricao.getText().trim().equals("")){
 			exception.addError("Descricao", "Campo não pode ficar vazio");
 		}
-		obj.setTipo(txtDescricao.getText());
+		obj.setDescricao(txtDescricao.getText().toUpperCase());
 		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
@@ -143,7 +146,10 @@ public class CadastroMelhoria implements Initializable {
 		Set<String> campos = errors.keySet();
 		
 		if (campos.contains("Tipo")) {
-			labelErro.setText(errors.get("Tipo"));
+			labelErroTipo.setText(errors.get("Tipo"));
+		}
+		if (campos.contains("Descricao")) {
+			labelErroDescricao.setText(errors.get("Descricao"));
 		}
 	}
 }
