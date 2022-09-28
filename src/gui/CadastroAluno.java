@@ -127,39 +127,39 @@ public class CadastroAluno implements Initializable {
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 
 		if (txtNome.getText()== null || txtNome.getText().trim().equals("")) {
-			exception.addError("Nome", "Campo não pode ficar vazio");
+			exception.addError("nome", "Campo não pode ficar vazio");
 		}
-		obj.setNome(txtNome.getText().toUpperCase());
+		obj.setNome(txtNome.getText());
 
 		if (txtAno.getText() == null || txtAno.getText().trim().equals("")) {
-			exception.addError("Ano", "Campo não pode ficar vazio");
+			exception.addError("ano", "Campo não pode ficar vazio");
 		}
 		obj.setAno(txtAno.getText());
 
 		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
-			exception.addError("Telefone", "Campo não pode ficar vazio");
+			exception.addError("telefone", "Campo não pode ficar vazio");
 		}
 		obj.setTelefone(txtTelefone.getText());
 
 		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
-			exception.addError("Email", "Campo não pode ficar vazio");
+			exception.addError("email", "Campo não pode ficar vazio");
 		}
-		obj.setEmail(txtEmail.getText().toLowerCase());
+		obj.setEmail(txtEmail.getText());
 
 		if (txtResponsavel.getText() == null || txtResponsavel.getText().trim().equals("")) {
-			exception.addError("Responsavel", "Campo não pode ficar vazio");
+			exception.addError("responsavel", "Campo não pode ficar vazio");
 		}
-		obj.setResponsavel(txtResponsavel.getText().toUpperCase());
+		obj.setResponsavel(txtResponsavel.getText());
 
 		if (txtEndereco.getText() == null || txtEndereco.getText().trim().equals("")) {
-			exception.addError("Endereco", "Campo não pode ficar vazio");
+			exception.addError("endereco", "Campo não pode ficar vazio");
 		}
-		obj.setEndereco(txtEndereco.getText().toUpperCase());
+		obj.setEndereco(txtEndereco.getText());
 
 		if (txtEscola.getText() == null || txtEscola.getText().trim().equals("")) {
-			exception.addError("Escola", "Campo não pode ficar vazio");
+			exception.addError("escola", "Campo não pode ficar vazio");
 		}
-		obj.setEscola(txtEscola.getText().toUpperCase());
+		obj.setEscola(txtEscola.getText());
 
 		if (exception.getErrors().size() > 0) {
 			throw exception;
@@ -206,13 +206,27 @@ public class CadastroAluno implements Initializable {
 	private void setErrorMessagens(Map<String, String> errors) {
 		Set<String> campos = errors.keySet();
 
-		labelErroNome.setText(((campos.contains("Nome") ? errors.get("Nome") : "")));
-		labelErroAno.setText(((campos.contains("Ano") ? errors.get("Ano") : "")));
-		labelErroTelefone.setText(((campos.contains("Telefone") ? errors.get("Telefone") : "")));
-		labelErroEmail.setText(((campos.contains("Email") ? errors.get("Email") : "")));
-		labelErroResponsavel.setText(((campos.contains("Responsavel") ? errors.get("Responsavel") : "")));
-		labelErroEndereco.setText(((campos.contains("Endereco") ? errors.get("Endereco") : "")));
-		labelErroEscola.setText(((campos.contains("Escola") ? errors.get("Escola") : "")));
+		if (campos.contains("nome")) {
+			labelErroNome.setText(errors.get("nome"));
+		}
+		if (campos.contains("telefone")) {
+			labelErroTelefone.setText(errors.get("telefone"));
+		}
+		if (campos.contains("ano")) {
+			labelErroAno.setText(errors.get("ano"));
+		}
+		if (campos.contains("email")) {
+			labelErroEmail.setText(errors.get("email"));
+		}
+		if (campos.contains("responsavel")) {
+			labelErroResponsavel.setText(errors.get("responsavel"));
+		}
+		if (campos.contains("endereco")) {
+			labelErroEndereco.setText(errors.get("endereco"));
+		}
+		if (campos.contains("escola")) {
+			labelErroEscola.setText(errors.get("escola"));
+		}
 		
 		
 	}

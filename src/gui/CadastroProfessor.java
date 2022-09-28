@@ -137,27 +137,27 @@ public class CadastroProfessor implements Initializable {
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 
 		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
-			exception.addError("Nome", "Campo não pode ficar vazio");
+			exception.addError("nome", "Campo não pode ficar vazio");
 		}
 		obj.setNome(txtNome.getText());
 
 		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
-			exception.addError("Telefone", "Campo não pode ficar vazio");
+			exception.addError("telefone", "Campo não pode ficar vazio");
 		}
 		obj.setTelefone(txtTelefone.getText());
 
 		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
-			exception.addError("Email", "Campo não pode ficar vazio");
+			exception.addError("email", "Campo não pode ficar vazio");
 		}
 		obj.setEmail(txtEmail.getText());
 
 		if (doubleHoraAula.getText() == null || doubleHoraAula.getText().trim().equals("")) {
-			exception.addError("HoraAula", "Campo não pode ficar vazio");
+			exception.addError("horaAula", "Campo não pode ficar vazio");
 		}
 		obj.setHoraAula(Utils.tryParseToDouble(doubleHoraAula.getText()));
 		
 		if (dpDataNascimento.getValue() == null ) {
-			exception.addError("DataNascimento", "Campo não pode ficar vazio");
+			exception.addError("dataNascimento", "Campo não pode ficar vazio");
 		}
 		else {
 			Instant instant = Instant.from(dpDataNascimento.getValue().atStartOfDay(ZoneId.systemDefault()));
@@ -230,11 +230,24 @@ public class CadastroProfessor implements Initializable {
 	private void setErrorMessagens(Map<String, String> errors) {
 		Set<String> campos = errors.keySet();
 
-		labelErroNome.setText(((campos.contains("Nome") ? errors.get("Nome") : "")));
-		labelErroTelefone.setText(((campos.contains("Telefone") ? errors.get("Telefone") : "")));
-		labelErroEmail.setText(((campos.contains("Email") ? errors.get("Email") : "")));
-		labelErroHoraAula.setText(((campos.contains("HoraAula") ? errors.get("HoraAula") : "")));
-		labelErroDataNascimento.setText(((campos.contains("DataNascimento") ? errors.get("DataNascimento") : "")));
+		if (campos.contains("nome")) {
+			labelErroNome.setText(errors.get("nome"));
+		}
+		if (campos.contains("telefone")) {
+			labelErroTelefone.setText(errors.get("telefone"));
+		}
+		if (campos.contains("email")) {
+			labelErroEmail.setText(errors.get("email"));
+		}
+		
+		if (campos.contains("horaAula")) {
+			labelErroHoraAula.setText(errors.get("horaAula"));
+		}
+		
+		
+		if (campos.contains("dataNascimento")) {
+			labelErroDataNascimento.setText(errors.get("dataNascimento"));
+		}
 		
 	}
 

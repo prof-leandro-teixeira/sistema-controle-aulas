@@ -14,11 +14,11 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CadastroProfessor">
    <children>
-      <GridPane prefHeight="229.0" prefWidth="750.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <GridPane prefHeight="351.0" prefWidth="753.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="54.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="317.0" minWidth="10.0" prefWidth="181.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="463.0" minWidth="10.0" prefWidth="395.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="138.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="10.0" prefWidth="320.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="463.0" minWidth="10.0" prefWidth="292.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -54,7 +54,7 @@
             <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="doubleHoraAula" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <DatePicker fx:id="dpDataNascimento" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ComboBox fx:id="cbDisciplina" prefWidth="150.0" promptText="Escolha a Disciplina" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ComboBox fx:id="cbDisciplina" prefHeight="25.0" prefWidth="177.0" promptText="Escolha a Disciplina" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label fx:id="labelErroTelefone" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label fx:id="labelErroEmail" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Label fx:id="labelErroHoraAula" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="4" />

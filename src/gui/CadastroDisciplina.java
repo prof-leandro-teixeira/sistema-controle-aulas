@@ -26,9 +26,7 @@ import modelos.servicos.ServicoDisciplina;
 public class CadastroDisciplina implements Initializable {
 	
 	private Disciplina entidade;
-	
 	private ServicoDisciplina servico;
-	
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
 	@FXML
@@ -97,17 +95,18 @@ public class CadastroDisciplina implements Initializable {
 		Disciplina obj = new Disciplina();
 		
 		ValidationException exception = new ValidationException("Erro de Validação");
+		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		
 		if (txtNome.getText()== null || txtNome.getText().trim().equals("")){
-			exception.addError("Nome", "Campo não pode ficar vazio");
+			exception.addError("nome", "Campo não pode ficar vazio");
 		}
-		obj.setNome(txtNome.getText().toUpperCase());
-		
+		obj.setNome(txtNome.getText());
+				
 		if (txtArea.getText()== null || txtArea.getText().trim().equals("")){
-			exception.addError("Area", "Campo não pode ficar vazio");
+			exception.addError("area", "Campo não pode ficar vazio");
 		}
-		obj.setArea(txtArea.getText().toUpperCase());
+		obj.setArea(txtArea.getText());
 		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
@@ -143,11 +142,11 @@ public class CadastroDisciplina implements Initializable {
 	private void setErrorMessagens(Map<String, String> errors) {
 		Set<String> campos = errors.keySet();
 		
-		if (campos.contains("Nome")) {
-			labelErroNome.setText(errors.get("Nome"));
+		if (campos.contains("nome")) {
+			labelErroNome.setText(errors.get("nome"));
 		}
-		if (campos.contains("Area")) {
-			labelErroArea.setText(errors.get("Area"));
+		if (campos.contains("area")) {
+			labelErroArea.setText(errors.get("area"));
 		}
 	}
 }
